@@ -49,7 +49,7 @@ using Planer.Models;
             WriteLiteral("<!DOCTYPE html>\n\n<html>\n    ");
             EndContext();
             BeginContext(28, 139, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d054dc98aaba4473a961835e83e9042b", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e062e7d4b3914b4e9775cd5f49295b06", async() => {
                 BeginContext(34, 126, true);
                 WriteLiteral("\n        <title>Planer</title>\n        <meta charset=\"utf-8\">\n        <meta name=\"viewport\" content=\"width=device-width\">\n    ");
                 EndContext();
@@ -69,7 +69,7 @@ using Planer.Models;
             WriteLiteral("\n    ");
             EndContext();
             BeginContext(172, 73, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2ddfe0227a774e69b0948a8a32b6924e", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "531870b2e1544bee8db8c749c5ffd5c6", async() => {
                 BeginContext(178, 27, true);
                 WriteLiteral("\n        <div>\n            ");
                 EndContext();
