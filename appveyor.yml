@@ -12,9 +12,11 @@ before_build:
 
 build:
   project: Planer/Planer.csproj
-  verbosity: detailed
+  verbosity: minimal
 
 test_script:
   - cmd: dotnet restore ./PlanerTests/PlanerTests.csproj --verbosity m
   - cmd: cd PlanerTests
   - cmd: dotnet test
+
+deploy: off
