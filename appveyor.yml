@@ -6,6 +6,10 @@ branches:
   only:
   - master
 
+before_build:
+  - cmd: dotnet --version
+  - cmd: dotnet restore ./Planer/Planer.csproj --verbosity m
+
 build:
   project: Planer/Planer.csproj
   verbosity: detailed
