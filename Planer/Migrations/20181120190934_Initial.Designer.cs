@@ -9,7 +9,7 @@ using Planer.Models;
 namespace Planer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181118120131_Initial")]
+    [Migration("20181120190934_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
