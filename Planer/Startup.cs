@@ -48,6 +48,10 @@ namespace Planer
 
             app.UseMvc(routes =>  
                 {
+                    // routes.MapRoute(
+                    //     name: "fileUpload",
+                    //     template: "{controller=FileUpload}/{action=UploadFileForm}/{id?}"
+                    // );
 
                     routes.MapRoute(
                         name: "default",

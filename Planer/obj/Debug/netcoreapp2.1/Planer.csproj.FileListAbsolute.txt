@@ -24,3 +24,4 @@
 /home/ana/Desktop/RS2/RS2_Planer/Planer/obj/Debug/netcoreapp2.1/Planer.RazorTargetAssemblyInfo.cs
 /home/ana/Desktop/RS2/RS2_Planer/Planer/obj/Debug/netcoreapp2.1/Planer.Views.pdb
 /home/ana/Desktop/RS2/RS2_Planer/Planer/obj/Debug/netcoreapp2.1/Planer.csproj.CopyComplete
+/home/ana/Desktop/RS2/RS2_Planer/Planer/obj/Debug/netcoreapp2.1/Razor/Views/FileUpload/UploadFileForm.g.cshtml.cs
