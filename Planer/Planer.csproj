@@ -22,6 +22,20 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Remove="ClientApp2\**" />
+    <Content Remove="ClientApp2\**" />
+    <None Remove="ClientApp\src\app\helpers\**" />
+    <Content Remove="ClientApp\src\app\helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ClientApp2\**" />
+    <Compile Remove="ClientApp\src\app\helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientApp2\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\helpers\**" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

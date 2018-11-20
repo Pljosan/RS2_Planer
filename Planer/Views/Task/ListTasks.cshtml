@@ -1,0 +1,9 @@
+@using Task = Planer.Models.Task
+@model IEnumerable<Task>
+
+
+@foreach ( Task t in Model) {
+    <div>
+        <h3>@t.Name</h3>
+    </div>
+}
