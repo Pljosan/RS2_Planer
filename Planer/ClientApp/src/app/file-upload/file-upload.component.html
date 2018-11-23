@@ -1,5 +1,5 @@
 <form #fileForm="ngForm" (ngSubmit)="onSubmit(fileForm)">     
-    <input name="FileName" [(ngModel)]="FileName">
+    <input name="FileName" [(ngModel)]="FileName" required>
     <input type="checkbox" name="isUserInputName" [(ngModel)]="isUserInputName">
     <input name="UserID" value="2" [(ngModel)]="UserID" hidden>
     <input type="file" name="File" [(ngModel)]="File" (change)="handleFileInput($event.target.files)">
