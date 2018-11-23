@@ -27,7 +27,12 @@ export class FileUploadComponent {
         if (fileValue.value.FileName) {
             formData.append("FileName", fileValue.value.FileName);
         }
-        formData.append("isUserInputName", fileValue.value.isUserInputName);
+        if (fileValue.value.FileName) {
+            formData.append("isUserInputName", fileValue.value.isUserInputName);
+        } 
+        else {
+            formData.append("isUserInputName", "false");
+        }
         formData.append("UserID", "2");
         formData.append("File", this.file, this.file.name);
 
