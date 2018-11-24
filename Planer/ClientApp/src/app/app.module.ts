@@ -8,6 +8,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { UsersComponent } from './users/users.component';
 import {FetchDataComponent} from "./fetch-data/fetch-data.component";
 import {FileUploadComponent} from "./file-upload/file-upload.component";
+import {FetchFoldersComponent} from "./fetch-folders/fetch-folders.component";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -18,7 +19,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     CalendarComponent,
     UsersComponent,
     FetchDataComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    FetchFoldersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
