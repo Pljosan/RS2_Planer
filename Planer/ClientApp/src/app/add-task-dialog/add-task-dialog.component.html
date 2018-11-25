@@ -1,0 +1,19 @@
+<div class="add-task-dialog">
+  <div>Add new task</div>
+  <form [formGroup]="form" class="form">
+    <mat-form-field>
+      <input matInput type="text" placeholder="name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput [matDatepicker]="date" placeholder="date" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+      <mat-datepicker #date></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input [ngxTimepicker]="picker">
+      <ngx-material-timepicker #picker></ngx-material-timepicker>
+    </mat-form-field>
+
+  </form>
+</div>
