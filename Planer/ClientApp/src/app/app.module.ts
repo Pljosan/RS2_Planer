@@ -8,15 +8,19 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { UsersComponent } from './users/users.component';
 import {FetchDataComponent} from "./fetch-data/fetch-data.component";
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { DayComponent } from './day/day.component';
+import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CalendarComponent,
     UsersComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    DayComponent,
+    AddTaskDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -25,7 +29,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     BrowserModule,
     BrowserAnimationsModule,
     AppMaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+  ],
+  entryComponents: [
+    AddTaskDialogComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
