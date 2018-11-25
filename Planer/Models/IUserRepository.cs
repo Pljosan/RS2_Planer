@@ -6,5 +6,9 @@ namespace Planer.Models {
 
         IQueryable<User> Users { get; }
 
+
+        void Create(User user);
+        void Save();
+
     }
 }
