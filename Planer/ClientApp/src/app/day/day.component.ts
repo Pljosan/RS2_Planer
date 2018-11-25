@@ -13,6 +13,7 @@ export class DayComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
   editRequest() {

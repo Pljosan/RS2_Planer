@@ -130,6 +130,14 @@
               <e p="fetch-data.component.html" t="Include" />
               <e p="fetch-data.component.ts" t="Include" />
             </e>
+            <e p="fetch-folders" t="Include">
+              <e p="fetch-folders.component.html" t="Include" />
+              <e p="fetch-folders.component.ts" t="Include" />
+            </e>
+            <e p="file-upload" t="Include">
+              <e p="file-upload.component.html" t="Include" />
+              <e p="file-upload.component.ts" t="Include" />
+            </e>
             <e p="login" t="Include">
               <e p="login.component.html" t="Include" />
               <e p="login.component.scss" t="Include" />
@@ -168,6 +176,7 @@
       </e>
       <e p="Controllers" t="Include">
         <e p="FileUploadController.cs" t="Include" />
+        <e p="FolderController.cs" t="Include" />
         <e p="SampleDataController.cs" t="Include" />
         <e p="TaskController.cs" t="Include" />
         <e p="UserController.cs" t="Include" />
@@ -177,11 +186,14 @@
         <e p="20181119172222_Task.cs" t="Include" />
         <e p="20181120190934_Initial.Designer.cs" t="Include" />
         <e p="20181120190934_Initial.cs" t="Include" />
+        <e p="20181125173633_tasks.Designer.cs" t="Include" />
+        <e p="20181125173633_tasks.cs" t="Include" />
         <e p="ApplicationDbContextModelSnapshot.cs" t="Include" />
       </e>
       <e p="Models" t="Include">
         <e p="ApplicationDbContext.cs" t="Include" />
         <e p="FileUpload.cs" t="Include" />
+        <e p="Folder.cs" t="Include" />
         <e p="ITaskRepository.cs" t="Include" />
         <e p="IUserRepository.cs" t="Include" />
         <e p="SeedData.cs" t="Include" />

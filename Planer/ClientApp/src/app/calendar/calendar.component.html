@@ -28,7 +28,7 @@
              *ngFor="let i of noOfDays; let index = index"
              [dayNo]="index + 1"
              (click)="openDialog()"
-             [taskData]=taskData
+             [taskData]="daysData[index + 1]"
     >
     </app-day>
 
