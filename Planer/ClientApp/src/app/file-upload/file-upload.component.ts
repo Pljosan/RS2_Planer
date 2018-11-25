@@ -41,7 +41,12 @@ export class FileUploadComponent {
                 console.log("jeeej");
             }
             else {
-                console.log("fejl :/")
+                if (status["error_code"] == 421) {
+                    console.log("file with that name already exists");
+                }
+                else {
+                    console.log("form validation failed");
+                }
             }
         });
     }
