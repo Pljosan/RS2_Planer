@@ -7,6 +7,8 @@ import {AppMaterialModule} from './app-material.module';
 import { CalendarComponent } from './calendar/calendar.component';
 import { UsersComponent } from './users/users.component';
 import {FetchDataComponent} from "./fetch-data/fetch-data.component";
+import {FileUploadComponent} from "./file-upload/file-upload.component";
+import {FetchFoldersComponent} from "./fetch-folders/fetch-folders.component";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -21,9 +23,11 @@ import { LoginComponent } from './login/login.component';
     UsersComponent,
     FetchDataComponent,
     DayComponent,
-    AddTaskDialogComponent
+    AddTaskDialogComponent,
     FetchDataComponent,
-    LoginComponent
+    LoginComponent,
+    FileUploadComponent,
+    FetchFoldersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

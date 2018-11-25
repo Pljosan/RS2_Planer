@@ -13,5 +13,14 @@ namespace Planer.Models {
 
         public IQueryable<User> Users => 
             repository.Users;
+
+        public void Create(User user)
+        {
+            this.repository.Set<User>().Add(user);
+        }
+
+        public void Save() {
+            this.repository.SaveChanges();
+        }
     }
 }
