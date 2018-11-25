@@ -27,8 +27,13 @@ export class AddTaskDialogComponent implements OnInit {
     console.log(this.xxx);
     this.form = new FormGroup({
       name: new FormControl('ttt'),
-      date: new FormControl(this.xxx)
+      date: new FormControl(this.xxx),
+      time: new FormControl()
     })
+  }
+
+  submitTask() {
+    console.log(this.form.value);
   }
 
 }

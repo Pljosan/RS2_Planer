@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import * as momentB from 'moment-business-days';
 import {MatDialog} from "@angular/material";
 import {AddTaskDialogComponent} from "../add-task-dialog/add-task-dialog.component";
-// import {Task} from "./task.model";
+import {Task} from "./task.model";
 
 @Component({
   selector: 'app-calendar',
@@ -32,29 +32,27 @@ export class CalendarComponent implements OnInit {
     desc: 'tra la la al'
   };
 
-  taskData = [
-    {
-      name: 'Test',
-      date: '12/11/2018',
-      time: '10:10:10',
-      userId: 4,
-      desc: 'tra la la al'
-    },
-    {
-      name: 'Test2',
-      date: '12/12/2018',
-      time: '10:12:10',
-      userId: 4,
-      desc: 'tra ld222 222 222a la al'
-    },
-
-  ];
+  // taskData = [
+  //   {
+  //     name: 'Test',
+  //     date: '12/11/2018',
+  //     time: '10:10:10',
+  //     userId: 4,
+  //     desc: 'tra la la al'
+  //   },
+  //   {
+  //     name: 'Test2',
+  //     date: '12/12/2018',
+  //     time: '10:12:10',
+  //     userId: 4,
+  //     desc: 'tra ld222 222 222a la al'
+  //   },
+  taskData;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string,
-              private cd: ChangeDetectorRef,
               private dialog: MatDialog) {
     http.get<Task[]>(baseUrl + 'api/Task/GetTasks').subscribe(result => {
-      this.tasks = result;
+      this.taskData = result;
       console.log(result);
     }, error => console.error(error));
   }
@@ -70,8 +68,8 @@ export class CalendarComponent implements OnInit {
 
   fillDaysData() {
     this.daysData.length = 0;
-    // for (let i = 0; i <= moment(this.date).daysInMonth(); i++) {
-    // }
+    for (let i = 0; i <= moment(this.date).daysInMonth(); i++) {
+    }
   }
 
   isToday(index): boolean {
@@ -85,13 +83,11 @@ export class CalendarComponent implements OnInit {
   nextMon(): void {
     this.generateDate(1);
     this.fillDaysData();
-    this.cd.detectChanges();
   }
 
   previousMon(): void {
     this.generateDate(-1);
     this.fillDaysData();
-    this.cd.detectChanges();
   }
 
   generateDate(amount) {
@@ -105,13 +101,5 @@ export class CalendarComponent implements OnInit {
   }
 
 
-}
-
-interface Task {
-  id: string;
-  userId: string;
-  name: string;
-  date: string;
-  time: string;
 }
 
