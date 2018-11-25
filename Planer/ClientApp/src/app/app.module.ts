@@ -12,6 +12,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { DayComponent } from './day/day.component';
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,8 @@ import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.compon
     FetchDataComponent,
     DayComponent,
     AddTaskDialogComponent
+    FetchDataComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
