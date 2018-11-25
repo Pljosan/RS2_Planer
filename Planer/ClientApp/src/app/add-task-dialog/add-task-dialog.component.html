@@ -11,9 +11,9 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input [ngxTimepicker]="picker">
-      <ngx-material-timepicker #picker></ngx-material-timepicker>
+      <input matInput type="text" placeholder="time" formControlName="time">
     </mat-form-field>
 
+    <button  mat-raised-button (click)="submitTask()">Add new task</button>
   </form>
 </div>
