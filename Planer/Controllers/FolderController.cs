@@ -38,7 +38,7 @@ namespace Planer.Controllers {
             return Json(resultFolder);
         }
 
-        private Folder createReturnFolder(Folder folder) {
+        public Folder createReturnFolder(Folder folder) {
             Dictionary<string, string> folders = new Dictionary<string, string>();
             List<string> allFolders = Directory.GetDirectories(folder.Path, "*", SearchOption.TopDirectoryOnly).ToList();
             Dictionary<string, string> files = new Dictionary<string, string>();
