@@ -1,3 +1,39 @@
-<p>
-  calendar works!
-</p>
+<div>
+  <div class="calendarHeader">
+    <span (click)="previousMon()"><i class="fas fa-angle-left"></i></span>
+    <div class="calendarTitle">
+      <span class="title">{{ calendarTittle}}</span>
+    </div>
+    <span class="icon-arrow_right" (click)="nextMon()"><i class="fas fa-angle-right"></i></span>
+  </div>
+
+
+  <div class="week">
+    <div class="weekDay"><span class="fullDayName">Monday</span><span class="shortDayName">Mon</span></div>
+    <div class="weekDay"><span class="fullDayName">Tuesday</span><span class="shortDayName">Tue</span></div>
+    <div class="weekDay"><span class="fullDayName">Wednesday</span><span class="shortDayName">Wed</span></div>
+    <div class="weekDay"><span class="fullDayName">Thursday</span><span class="shortDayName">Thu</span></div>
+    <div class="weekDay"><span class="fullDayName">Friday</span><span class="shortDayName">Fri</span></div>
+    <div class="weekDay"><span class="fullDayName">Saturday</span><span class="shortDayName">Sat</span></div>
+    <div class="weekDay"><span class="fullDayName">Sunday</span><span class="shortDayName">Sun</span></div>
+  </div>
+
+  <div class="calendar">
+    <app-day class="appDay"
+             *ngFor="let i of freeDays; let index=index">
+    </app-day>
+
+    <app-day class="appDay"
+             #element
+             *ngFor="let i of noOfDays; let index = index"
+             [dayNo]="index + 1"
+             (click)="openDialog()"
+             [taskData]=taskData
+    >
+    </app-day>
+
+
+    <app-day class="appDay"
+             *ngFor="let i of freeDaysAfter; let index = index">
+    </app-day>
+  </div>
