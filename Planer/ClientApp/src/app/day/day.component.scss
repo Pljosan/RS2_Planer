@@ -1,0 +1,33 @@
+$primary: #42a5f5;
+
+.day {
+  margin-left: -2px;
+  margin-right: -2px;
+
+  .dayNo {
+    color: #808080;
+    margin-left: 5px;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+
+    .markedDate {
+      display: flex;
+      align-items: center;
+      background-color: #e6e6e6;
+      margin-bottom: 2px;
+      height: 20px;
+      margin-right: 5px;
+      margin-left: 5px;
+      border-radius: 10px 10px 10px 10px;
+      padding-left: 5px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

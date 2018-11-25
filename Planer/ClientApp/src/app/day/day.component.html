@@ -1,0 +1,10 @@
+<div class="day">
+  <span class="dayNo">{{ dayNo }}</span>
+  <div class="flex">
+    <div *ngFor="let data of taskData; let index = index">
+       <div class="markedDate" >
+         {{data.name}}
+      </div>
+    </div>
+  </div>
+</div>
