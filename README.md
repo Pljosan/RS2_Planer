@@ -8,5 +8,7 @@
 
 
 Komande:
-* Migracija baze: dotnet ef database update
+* Migracija baze: 
+  - dotnet ef database update
+  - dotnet ef database drop --force
 * Instalacija modula: npm install
