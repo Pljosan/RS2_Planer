@@ -3,6 +3,7 @@
 <p *ngIf="!folderContents"><em>Loading...</em></p>
 
 <button (click)="goToPreviousFolder(folderContents.path)" *ngIf="folderContents">Back</button>
+<button (click)="openFileUploadDialog(folderContents.path)" *ngIf="folderContents">File upload</button>
 <table class='table' *ngIf="folderContents">
   <thead>
     <tr>
