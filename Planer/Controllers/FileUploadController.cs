@@ -39,18 +39,30 @@ namespace Planer.Controllers {
             Console.WriteLine("file1: " + file.FileName);
             Console.WriteLine("file2: " + file.UserID);
             Console.WriteLine("file3: " + file.isUserInputName);
+            Console.WriteLine("file4: " + file.DestFolder);
             
             Dictionary<string, object> result = new Dictionary<string, object>();
             if (ModelState.IsValid) {
                     User user = repository.Users.Where(p => p.UserID == file.UserID).FirstOrDefault();
 
-                    if (!Directory.Exists(user.RootFolderLocation)) {
-                        Directory.CreateDirectory(user.RootFolderLocation);
+                    string folderPath = "";
+                    if (file.DestFolder == null || file.DestFolder.Length == 0) {
+                        folderPath = user.RootFolderLocation;
+                    } else {
+                        folderPath = file.DestFolder;
+                    }
+
+                    if(folderPath.LastIndexOf("/") != folderPath.Length - 1) {
+                        folderPath += "/";
+                    }
+                    
+                    if (!Directory.Exists(folderPath)) {
+                            Directory.CreateDirectory(folderPath);
                     }
 
                     string fileName = file.isUserInputName ? file.FileName : Path.GetFileNameWithoutExtension(file.File.FileName);
                     
-                    string filePath = user.RootFolderLocation + fileName + Path.GetExtension(file.File.FileName);
+                    string filePath = folderPath + fileName + Path.GetExtension(file.File.FileName);
 
                     if (!System.IO.File.Exists(filePath)) {
                         using (var fileStream = new FileStream(filePath, FileMode.Create))

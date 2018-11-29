@@ -15,6 +15,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { DayComponent } from './day/day.component';
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
 import { LoginComponent } from './login/login.component';
+import {MatDialogModule} from "@angular/material";
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +31,7 @@ import { LoginComponent } from './login/login.component';
     FetchDataComponent,
     LoginComponent,
     FileUploadComponent,
-    FetchFoldersComponent
+    FetchFoldersComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,9 +42,13 @@ import { LoginComponent } from './login/login.component';
     AppMaterialModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
   ],
   entryComponents: [
-    AddTaskDialogComponent
+    AddTaskDialogComponent,
+    FileUploadComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

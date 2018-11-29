@@ -15,5 +15,7 @@ namespace Planer.Models {
 
         [Required(ErrorMessage = "Select a file to upload")]
         public IFormFile File { get; set; }
+
+        public string DestFolder { get; set; }
     }
 }

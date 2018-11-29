@@ -1,7 +1,24 @@
-<form #fileForm="ngForm" (ngSubmit)="onSubmit(fileForm)">     
-    <input name="FileName" [(ngModel)]="FileName" required>
-    <input type="checkbox" name="isUserInputName" [(ngModel)]="isUserInputName">
-    <input name="UserID" value="2" [(ngModel)]="UserID" hidden>
-    <input type="file" name="File" [(ngModel)]="File" (change)="handleFileInput($event.target.files)">
-    <button type="submit">Save</button>
-</form>
+<h2 mat-dialog-title>File upload</h2>
+
+<mat-dialog-content [formGroup]="form"> 
+    <label>Change file name:</label>
+    <!-- mat-checkbox -->
+    <mat-slide-toggle matInput formControlName="isUserInputName" (change)="onChangeSlider()"></mat-slide-toggle>
+    <br>
+    <mat-form-field [ngClass]="switch ? 'blockFileName' : 'hiddenFileName'">
+        <label>File name:</label>
+        <input matInput placeholder="File name (optional)" formControlName="FileName">
+    </mat-form-field>
+    <br>
+    <mat-form-field style="display: none;">
+        <input matInput formControlName="UserID" value="2">
+    </mat-form-field>    
+    <br>
+    <input type="file" (change)="handleFileInput($event.target.files)">
+      
+</mat-dialog-content>
+
+<mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()"> Close </button>
+        <button class="mat-raised-button mat-primary" (click)="save()"> Save </button>
+</mat-dialog-actions>

@@ -1,56 +1,55 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import {FormBuilder, Validators, FormGroup} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 
 @Component({
   selector: 'app-file-upload',
-  templateUrl: './file-upload.component.html'
+  templateUrl: './file-upload.component.html',
+  styleUrls: ['./file-upload.component.scss']
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
     public baseUrl: string;
     public file: File;
+    public form: FormGroup;
+    public switch = false;
     
-    constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+    constructor(private http: HttpClient, private fb: FormBuilder,
+                private dialogRef: MatDialogRef<FileUploadComponent>,
+                // @Inject(MAT_DIALOG_DATA) {FileName, isUserInputName,
+                //     UserID}: FileUpload, 
+                @Inject('BASE_URL') baseUrl: string) 
+    { 
         this.baseUrl = baseUrl;
+
+        this.form = this.fb.group({
+            FileName: [''],
+            isUserInputName: [''],
+            UserID: ['']
+        });
     }
 
     handleFileInput(files: FileList) {
         this.file = files[0];
     }
 
-    onSubmit(fileValue : NgForm) {
-
-        // const headers = new HttpHeaders().set('content-type', 'application/json');  
-
-        var formData = new FormData();
-        if (fileValue.value.FileName) {
-            formData.append("FileName", fileValue.value.FileName);
-        }
-        if (fileValue.value.FileName) {
-            formData.append("isUserInputName", fileValue.value.isUserInputName);
-        } 
-        else {
-            formData.append("isUserInputName", "false");
-        }
-        formData.append("UserID", "2");
-        formData.append("File", this.file, this.file.name);
-
-        this.http.post<FileUpload>(this.baseUrl + 'api/FileUpload/UploadFileForm', formData ).subscribe(status => {
-            if (status['result']) {
-                console.log("jeeej");
-            }
-            else {
-                if (status["error_code"] == 421) {
-                    console.log("file with that name already exists");
-                }
-                else {
-                    console.log("form validation failed");
-                }
-            }
-        });
+    save() {
+        this.dialogRef.close({"form": this.form.value, "file": this.file});
     }
 
+    close() {
+        this.dialogRef.close();
+    }
+
+    ngOnInit() {
+
+    }
+
+    onChangeSlider() {
+        console.log("switch: " + this.switch);
+        this.switch = !this.switch; 
+    }
     
 }
 
@@ -58,6 +57,6 @@ export class FileUploadComponent {
 interface FileUpload {
   UserID: number,
   FileName: string,
-  File: File,
+  FileObj: File,
   isUserInputName: boolean
 }
