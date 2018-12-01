@@ -35,6 +35,7 @@ export class FileUploadComponent implements OnInit {
     }
 
     save() {
+        this.form.patchValue({UserID: '2'}); 
         this.dialogRef.close({"form": this.form.value, "file": this.file});
     }
 

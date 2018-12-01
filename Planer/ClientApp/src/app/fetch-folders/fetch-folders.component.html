@@ -7,20 +7,17 @@
 <table class='table' *ngIf="folderContents">
   <thead>
     <tr>
-      <th>#</th>
-      <th>Type</th>
+      <th></th>
       <th>Name</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let folder of subfolders">
-      <td>{{ folderContents.userID }}</td>
-      <td style="background: red;"></td>
+      <td><i class="material-icons">folder</i></td>
       <td (click)="getConentsOfFolder(folder)">{{ folderContents.subfolders[folder] }}</td>
     </tr>
     <tr *ngFor="let file of files">
-      <td>{{ folderContents.userID }}</td>
-      <td style="background: blue;"></td>
+      <td><i class="material-icons">library_books</i></td>
       <td>{{ folderContents.files[file] }}</td>
     </tr>
   </tbody>
