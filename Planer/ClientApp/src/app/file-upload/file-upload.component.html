@@ -11,7 +11,8 @@
     </mat-form-field>
     <br>
     <mat-form-field style="display: none;">
-        <input matInput formControlName="UserID" value="2">
+        <!-- [ngModel]="2" radi, ali je deprecated; onaj form.patch postavlja id -->
+        <input matInput formControlName="UserID">
     </mat-form-field>    
     <br>
     <input type="file" (change)="handleFileInput($event.target.files)">
