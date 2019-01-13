@@ -38,6 +38,35 @@ namespace Planer.Controllers {
             return Json(resultFolder);
         }
 
+        [HttpPost("[action]")]
+        public JsonResult createNewFolder(Folder folder) {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            
+            string folderPath = folder.Path + "/" + folder.Name;
+            if (!Directory.Exists(folderPath)) {
+                Directory.CreateDirectory(folderPath);
+            }
+            
+            
+            result.Add("result", true);
+            return Json(result);
+        }
+
+        [HttpPost("[action]")]
+        public JsonResult deleteFolder([FromBody] Folder folder) {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            
+            Console.WriteLine("deleting " + folder.Path);
+
+            if (Directory.Exists(folder.Path)) {
+                Directory.Delete(folder.Path, true);
+            }
+            
+            
+            result.Add("result", true);
+            return Json(result);
+        }
+
         public Folder createReturnFolder(Folder folder) {
             Dictionary<string, string> folders = new Dictionary<string, string>();
             List<string> allFolders = Directory.GetDirectories(folder.Path, "*", SearchOption.TopDirectoryOnly).ToList();
