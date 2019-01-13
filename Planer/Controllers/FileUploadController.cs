@@ -88,6 +88,42 @@ namespace Planer.Controllers {
             return Json(result);
             
         }
+
+        [HttpPost("[action]")]
+        public FileContentResult downloadFile([FromBody] FileUpload file){
+            var content = System.IO.File.ReadAllBytes(file.FileName);
+            var contentType = "APPLICATION/octet-stream";
+            var fileName = "something.bin";
+            return File(content, contentType, fileName);
+        }
+
+        [HttpDelete("[action]/{path}")]
+        public JsonResult deleteFile(string path){
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            path = path.Replace("%2F", "/");
+            System.IO.File.Delete(path);
+
+            result.Add("result", true);
+            return Json(result);
+        }
+
+        [HttpPut("[action]")]
+        public JsonResult RenameFile(FileUpload file){
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            string oldName = file.Path;
+            string extension = oldName.Substring(oldName.LastIndexOf("."));
+            string newName = oldName.Substring(0, oldName.LastIndexOf("/") + 1) + file.FileName + extension;
+
+            Console.WriteLine("novo ime: " + newName);
+
+            System.IO.File.Move(oldName, newName);
+
+            result.Add("result", true);
+            return Json(result);
+        }
+ 
     }
 
 }

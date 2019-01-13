@@ -10,20 +10,12 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
-    public baseUrl: string;
     public file: File;
     public form: FormGroup;
     public switch = false;
     
-    constructor(private http: HttpClient, private fb: FormBuilder,
-                private dialogRef: MatDialogRef<FileUploadComponent>,
-                // @Inject(MAT_DIALOG_DATA) {FileName, isUserInputName,
-                //     UserID}: FileUpload, 
-                @Inject('BASE_URL') baseUrl: string) 
-    { 
-        this.baseUrl = baseUrl;
-
-        this.form = this.fb.group({
+    constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<FileUploadComponent>) { 
+       this.form = this.fb.group({
             FileName: [''],
             isUserInputName: [''],
             UserID: ['']

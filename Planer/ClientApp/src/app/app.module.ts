@@ -8,7 +8,10 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { UsersComponent } from './users/users.component';
 import {FetchDataComponent} from "./fetch-data/fetch-data.component";
 import {FileUploadComponent} from "./file-upload/file-upload.component";
+import {RenameDialogComponent} from "./rename-dialog/rename-dialog.component";
+import {FolderCreateComponent} from "./folder-create/folder-create.component";
 import {FetchFoldersComponent} from "./fetch-folders/fetch-folders.component";
+import {LinkMonitorComponent} from "./link-monitor/link-monitor.component";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -32,6 +35,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     LoginComponent,
     FileUploadComponent,
     FetchFoldersComponent,
+    LinkMonitorComponent,
+    FolderCreateComponent,
+    RenameDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -49,6 +55,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
   entryComponents: [
     AddTaskDialogComponent,
     FileUploadComponent,
+    FolderCreateComponent,
+    RenameDialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

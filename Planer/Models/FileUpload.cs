@@ -17,5 +17,7 @@ namespace Planer.Models {
         public IFormFile File { get; set; }
 
         public string DestFolder { get; set; }
+
+        public string Path { get; set; }
     }
 }

@@ -6,6 +6,7 @@ import {UsersComponent} from './users/users.component';
 import {FetchDataComponent} from "./fetch-data/fetch-data.component";
 import {LoginComponent} from './login/login.component';
 import {FileUploadComponent} from "./file-upload/file-upload.component";
+import {LinkMonitorComponent} from "./link-monitor/link-monitor.component";
 import {FetchFoldersComponent} from "./fetch-folders/fetch-folders.component";
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'file-upload', component: FileUploadComponent},
   {path: 'fetch-folders', component: FetchFoldersComponent},
+  {path: 'link-monitor', component: LinkMonitorComponent},
 ];
 
 @NgModule({
