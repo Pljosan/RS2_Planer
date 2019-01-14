@@ -1,12 +1,11 @@
-import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import * as moment from 'moment';
 import * as momentB from 'moment-business-days';
 import {MatDialog} from "@angular/material";
 import {AddTaskDialogComponent} from "../add-task-dialog/add-task-dialog.component";
 import {Task} from "./task.model";
-import {_localeFactory} from "@angular/core/src/application_module";
-import {logWarnings} from "protractor/built/driverProviders";
+import {DayTasksDialogComponent} from "../day-tasks-dialog/day-tasks-dialog.component";
 
 @Component({
   selector: 'app-calendar',
@@ -26,39 +25,33 @@ export class CalendarComponent implements OnInit {
   calendarTittle;
 
 
-  task = {
-    name: 'Test',
-    date: '12/11/2018',
-    time: '10:10:10',
-    userId: 4,
-    desc: 'tra la la al'
-  };
+  taskData = [
+    {
+      name: 'Test',
+      date: '12/11/2018',
+      time: '10:10:10',
+      userId: 4,
+      desc: 'tra la la al'
+    },
+    {
+      name: 'Test2',
+      date: '12/12/2018',
+      time: '10:12:10',
+      userId: 4,
+      desc: 'tra ld222 222 222a la al'
+    },
+  ];
 
-  // taskData = [
-  //   {
-  //     name: 'Test',
-  //     date: '12/11/2018',
-  //     time: '10:10:10',
-  //     userId: 4,
-  //     desc: 'tra la la al'
-  //   },
-  //   {
-  //     name: 'Test2',
-  //     date: '12/12/2018',
-  //     time: '10:12:10',
-  //     userId: 4,
-  //     desc: 'tra ld222 222 222a la al'
-  //   },
-  taskData;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string,
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,
               private cd: ChangeDetectorRef,
               private dialog: MatDialog) {
     http.get<Task[]>(baseUrl + 'api/Task/GetTasks').subscribe(result => {
       this.tasks = result;
-      // this.cd.detectChanges();
+      console.log(this.tasks);
       this.fillDaysData();
     }, error => console.error(error));
+
   }
 
   ngOnInit() {
@@ -68,8 +61,51 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(AddTaskDialogComponent);
+  openDialog(dayNo) {
+    console.log(dayNo);
+    console.log(this.daysData[dayNo].length);
+    const date = moment({y: moment(this.date).year(), M: moment(this.date).month(), d: dayNo});
+    console.log(date.format('DD/MM/YYYY'));
+    let addTaskDialogRef;
+    if (this.daysData[dayNo].length === 0) {
+      console.log('dodaj novi');
+      addTaskDialogRef = this.dialog.open(AddTaskDialogComponent, {
+        data: {date}
+      });
+
+      addTaskDialogRef.afterClosed().subscribe(res => {
+        if (res === 'submitted') {
+          this.http.get<Task[]>(this.baseUrl + 'api/Task/GetTasks').subscribe(result => {
+            this.tasks = result;
+            this.fillDaysData();
+          }, error => console.error(error));
+        }
+      })
+    } else {
+      console.log('edit');
+      const tasks = this.daysData[dayNo];
+      const dialogRef = this.dialog.open(DayTasksDialogComponent, {
+        data: {tasks}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        if (res == 'addNew') {
+          addTaskDialogRef  = this.dialog.open(AddTaskDialogComponent, {
+            data: {date}
+          });
+
+          addTaskDialogRef.afterClosed().subscribe(res => {
+            if (res === 'submitted') {
+              this.http.get<Task[]>(this.baseUrl + 'api/Task/GetTasks').subscribe(result => {
+                this.tasks = result;
+                this.fillDaysData();
+              }, error => console.error(error));
+            }
+          })
+        }
+      })
+
+    }
   }
 
   fillDaysData() {
@@ -77,6 +113,8 @@ export class CalendarComponent implements OnInit {
     for (let i = 0; i <= moment(this.date).daysInMonth(); i++) {
       this.daysData[i] = this.getDayTasks(i);
     }
+
+    this.cd.detectChanges();
   }
 
   getDayTasks(dayNo) {

@@ -20,5 +20,11 @@ namespace Planer.Controllers
             return repository.Tasks;
         }
 
+        [HttpPost("[action]")]
+        public void AddTask([FromBody] Task task)
+        {
+            repository.AddTask(task);
+        }
+
     }
 }

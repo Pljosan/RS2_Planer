@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Planer.Models
 {
     public class Task
@@ -7,5 +9,6 @@ namespace Planer.Models
         public string Name { get; set; }
         public string Date { get; set; }
         public string Time { get; set; }
+        public string GroupID { get; set; }
     }
 }
