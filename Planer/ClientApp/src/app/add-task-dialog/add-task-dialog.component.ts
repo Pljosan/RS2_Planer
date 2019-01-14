@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import {FormControl, FormGroup} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -21,19 +23,33 @@ export class AddTaskDialogComponent implements OnInit {
 
   xxx = moment().format('YYYY-MM-DD');
 
-  constructor() { }
+  constructor(
+    private dialogRef: MatDialogRef<AddTaskDialogComponent>,
+    public http: HttpClient,
+    @Inject('BASE_URL') public baseUrl: string,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
 
   ngOnInit() {
-    console.log(this.xxx);
     this.form = new FormGroup({
       name: new FormControl('ttt'),
-      date: new FormControl(this.xxx),
+      date: new FormControl(this.data.date.format('YYYY-MM-DD')),
       time: new FormControl()
     })
   }
 
   submitTask() {
     console.log(this.form.value);
+    // this.dialogRef.close('submit');
+    this.http.post(this.baseUrl + 'api/Task/AddTask', this.form.value).subscribe(res => {
+      console.log(res);
+      this.dialogRef.close('submitted');
+    })
+    // this.http.get<Task[]>(baseUrl + 'api/Task/GetTasks').subscribe(result => {
+    //   this.tasks = result;
+    //   console.log(this.tasks);
+    //   this.fillDaysData();
+    // }, error => console.error(error));
   }
 
 }

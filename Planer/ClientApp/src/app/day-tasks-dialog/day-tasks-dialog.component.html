@@ -1,0 +1,9 @@
+<div>
+  <div class="title">{{dateFormat()}}</div>
+  <div class="task-data" *ngFor="let task of tasks">
+    <div>{{task.name}}</div>
+    <div>{{task.time}}</div>
+  </div>
+
+  <button class="add-button" mat-button mat-raised-button (click)="addNewTaskDialogOpen()">Add new task</button>
+</div>
