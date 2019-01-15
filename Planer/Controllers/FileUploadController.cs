@@ -123,7 +123,35 @@ namespace Planer.Controllers {
             result.Add("result", true);
             return Json(result);
         }
- 
+
+        [HttpPut("[action]")]
+        public JsonResult MoveFile(FileUpload file){
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            string oldLocation = file.Path;
+            string fileName = oldLocation.Substring(oldLocation.LastIndexOf("/"));
+            string newLocation = file.FileName + fileName;
+
+            System.IO.File.Move(oldLocation, newLocation);
+
+            result.Add("result", true);
+            return Json(result);
+        }
+        
+        [HttpPut("[action]")]
+        public JsonResult CopyFile(FileUpload file){
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            string oldLocation = file.Path;
+            string fileName = oldLocation.Substring(oldLocation.LastIndexOf("/"));
+            string newLocation = file.FileName + fileName;
+
+            System.IO.File.Copy(oldLocation, newLocation);
+
+            result.Add("result", true);
+            return Json(result);
+        }
+
     }
 
 }

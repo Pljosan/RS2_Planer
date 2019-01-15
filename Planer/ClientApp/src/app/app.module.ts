@@ -9,6 +9,7 @@ import { UsersComponent } from './users/users.component';
 import {FetchDataComponent} from "./fetch-data/fetch-data.component";
 import {FileUploadComponent} from "./file-upload/file-upload.component";
 import {RenameDialogComponent} from "./rename-dialog/rename-dialog.component";
+import {FolderListDialogComponent} from "./folder-list-dialog/folder-list-dialog.component";
 import {FolderCreateComponent} from "./folder-create/folder-create.component";
 import {FetchFoldersComponent} from "./fetch-folders/fetch-folders.component";
 import {LinkMonitorComponent} from "./link-monitor/link-monitor.component";
@@ -38,6 +39,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     LinkMonitorComponent,
     FolderCreateComponent,
     RenameDialogComponent,
+    FolderListDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,6 +59,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     FileUploadComponent,
     FolderCreateComponent,
     RenameDialogComponent,
+    FolderListDialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
