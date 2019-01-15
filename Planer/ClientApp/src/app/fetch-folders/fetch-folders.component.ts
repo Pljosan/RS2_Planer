@@ -4,8 +4,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { FolderCreateComponent } from '../folder-create/folder-create.component';
 import { RenameDialogComponent } from '../rename-dialog/rename-dialog.component';
-
-
+import { FolderListDialogComponent } from '../folder-list-dialog/folder-list-dialog.component';
 
 @Component({
   selector: 'app-fetch-folders',
@@ -170,6 +169,56 @@ export class FetchFoldersComponent implements OnInit {
         });        
     }
 
+    moveFile(path: string) {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        const dialogRef = this.dialog.open(FolderListDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(
+            data => {
+                if (!data) {
+                    console.log("closed");
+                    return;
+                }
+                
+                var formData = new FormData();
+                if (data["Destination"]) {
+                    formData.append("FileName", data["Destination"]);
+                }
+
+                formData.append("Path", path);
+
+                this.submitMoveFormData(formData);
+        });        
+    }
+
+    copyFile(path: string) {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        const dialogRef = this.dialog.open(FolderListDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(
+            data => {
+                if (!data) {
+                    console.log("closed");
+                    return;
+                }
+                
+                var formData = new FormData();
+                if (data["Destination"]) {
+                    formData.append("FileName", data["Destination"]);
+                }
+
+                formData.append("Path", path);
+
+                this.submitCopyFormData(formData);
+        });        
+    }
+
     submitFormData(formData: FormData) {
 
         this.http.post<FileUpload>(this.baseUrl + 'api/FileUpload/UploadFileForm', formData ).subscribe(status => {
@@ -192,6 +241,46 @@ export class FetchFoldersComponent implements OnInit {
     submitRenameFormData(formData: FormData) {
 
         this.http.put(this.baseUrl + 'api/FileUpload/RenameFile', formData ).subscribe(status => {
+            if (status['result']) {
+                console.log("jeeej");
+            }
+            else {
+                if (status["error_code"] == 421) {
+                    console.log("file with that name already exists");
+                }
+                else {
+                    console.log("form validation failed");
+                }
+            }
+            // window.location.reload();
+            var path = formData.get("Path").toString();
+            this.getConentsOfFolder(path.substring(0, path.lastIndexOf("/") + 1).toString());
+        });
+    }
+
+    submitMoveFormData(formData: FormData) {
+
+        this.http.put(this.baseUrl + 'api/FileUpload/MoveFile', formData ).subscribe(status => {
+            if (status['result']) {
+                console.log("jeeej");
+            }
+            else {
+                if (status["error_code"] == 421) {
+                    console.log("file with that name already exists");
+                }
+                else {
+                    console.log("form validation failed");
+                }
+            }
+            // window.location.reload();
+            var path = formData.get("Path").toString();
+            this.getConentsOfFolder(path.substring(0, path.lastIndexOf("/") + 1).toString());
+        });
+    }
+
+    submitCopyFormData(formData: FormData) {
+
+        this.http.put(this.baseUrl + 'api/FileUpload/CopyFile', formData ).subscribe(status => {
             if (status['result']) {
                 console.log("jeeej");
             }

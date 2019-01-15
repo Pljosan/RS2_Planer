@@ -1,0 +1,22 @@
+<table class='table' *ngIf="folderContents">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><i (click)="goToPreviousFolder(folderContents.path)" class="material-icons">unarchive</i></td>
+      <td (click)="goToPreviousFolder(folderContents.path)" style="cursor: pointer;">...</td>
+      <td></td>
+    </tr>
+    <tr *ngFor="let folder of subfolders">
+      <td><i class="material-icons">folder</i></td>
+      <td (click)="getConentsOfFolder(folder)" style="cursor: pointer;">{{ folderContents.subfolders[folder] }}</td>   
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="close()"> Close </button>
+<button (click)="save(folderContents.path)"> Select current folder </button>   
