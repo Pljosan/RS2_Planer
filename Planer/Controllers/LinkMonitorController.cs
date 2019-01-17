@@ -21,10 +21,11 @@ namespace Planer.Controllers {
 
         [HttpGet("[action]")]
         
+        //JsonResult
         public async Task<JsonResult> getModifyDate() {
 
             Dictionary<string, object> res = new Dictionary<string, object>();
-            
+
             using (HttpClient client = new HttpClient()) {
                 const string url = "http://poincare.matf.bg.ac.rs/~smalkov/";
                 StringBuilder sb = new StringBuilder();
@@ -45,35 +46,10 @@ namespace Planer.Controllers {
                             var builder = new InlineDiffBuilder(d);
                             var result = builder.BuildDiffModel(oldText, newText);
 
-                            foreach (var line in result.Lines){
-                                if (line.Type == ChangeType.Inserted)
-                                {
-                                    sb.Append("+ ");
-
+                            foreach (var line in result.Lines) {
+                                if (line.Type == ChangeType.Inserted) {
                                     additions.Add(line.Text);
                                 }
-                                else if (line.Type == ChangeType.Deleted)
-                                {
-                                    sb.Append("- ");
-
-                                    removals.Add(line.Text);
-                                }
-                                else if (line.Type == ChangeType.Modified)
-                                {
-                                    sb.Append("* ");
-
-                                    changes.Add(line.Text);
-                                }
-                                else if (line.Type == ChangeType.Imaginary)
-                                {
-                                    sb.Append("? ");
-                                }
-                                else if (line.Type == ChangeType.Unchanged)
-                                {
-                                    sb.Append("  ");
-                                }
-
-                                sb.Append(line.Text + "<br/>");
                             }
                         }
 
@@ -91,27 +67,9 @@ namespace Planer.Controllers {
                 }
                 res.Add("result", true);
                 res.Add("additions", additions);
-                res.Add("removals", removals);
-                res.Add("changes", changes);
             }
 
             return Json(res);
-
-
-            // string filePath = "../../user1/smalkov.html";
-    
-            // if (!System.IO.File.Exists(filePath)) {
-            //     System.IO.File.Create(filePath);
-            //     TextWriter tw = new StreamWriter(filePath);
-            //     tw.WriteLine(responseBody);
-            //     tw.Close();
-            // }
-            // else {
-            //     //uporedi i onda ovo
-            //     TextWriter tw = new StreamWriter(filePath, false);
-            //     tw.WriteLine(responseBody);
-            //     tw.Close(); 
-            // }
         }
     }
 }
