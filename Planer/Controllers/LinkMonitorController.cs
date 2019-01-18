@@ -13,15 +13,23 @@ using DiffPlex.DiffBuilder.Model;
 using System.Text;
 
 using Planer.Models;
+using Planer.Models.ViewModels;
 
 namespace Planer.Controllers {
 
     [Route("api/[controller]")]
     public class LinkMonitorController : Controller {
 
+        private ILinkRepository linkRepository;
+        private IUserRepository userRepository;
+
+        public LinkMonitorController(ILinkRepository repository, IUserRepository userRepository)
+        {
+            this.linkRepository = repository;
+            this.userRepository = userRepository;
+        }
+
         [HttpGet("[action]")]
-        
-        //JsonResult
         public async Task<JsonResult> getModifyDate() {
 
             Dictionary<string, object> res = new Dictionary<string, object>();
@@ -70,6 +78,17 @@ namespace Planer.Controllers {
             }
 
             return Json(res);
+        }
+
+        [HttpPost("[action]")]
+        public JsonResult AddNewLink(LinkViewModel linkViewModel) {
+
+            User user = userRepository.Users.FirstOrDefault(u => u.UserID == linkViewModel.UserID);
+            Link link = new Link { User = user, Url = linkViewModel.Url, PathToFile = "test" };
+
+            linkRepository.Save(link);
+            return Json("jej");
+
         }
     }
 }

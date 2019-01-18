@@ -1,0 +1,15 @@
+<mat-dialog-content [formGroup]="form"> 
+    <mat-form-field>
+        <label>Link URL:</label>
+        <br>
+        <small style="color: red;" *ngIf="form.get('Url').errors.invalidUrl">Wrong format!</small>
+        <br>
+        <input matInput placeholder="URL" formControlName="Url">
+    </mat-form-field>      
+</mat-dialog-content>
+
+<mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()" [disabled]="form.get('Url').errors.invalidUrl"> Close </button>
+        <button class="mat-raised-button mat-primary" (click)="save()"> Save </button>
+</mat-dialog-actions>
+

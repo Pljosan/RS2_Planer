@@ -37,6 +37,7 @@ namespace Planer
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<ILinkRepository, LinkRepository>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // In production, the Angular files will be served from this directory
@@ -82,6 +83,8 @@ namespace Planer
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            SeedData.EnsurePopulated(app);
         }
     }
 }

@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { interval } from 'rxjs';
-
+import { AddLinkDialogComponent } from "../add-link-dialog/add-link-dialog.component"
+import { MatDialog, MatDialogConfig } from "@angular/material";
 
 @Component({
   selector: 'app-link-monitor',
@@ -15,7 +16,7 @@ export class LinkMonitorComponent implements OnInit {
     private timer;
     public notificationClicked : boolean;
 
-    constructor (private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+    constructor (private dialog: MatDialog, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
         this.baseUrl = baseUrl;
         this.notificationClicked = true;
         this.additions = new Array<string>();
@@ -57,5 +58,60 @@ export class LinkMonitorComponent implements OnInit {
             }
           }, error => console.error(error));
     }
+
     
+    openAddLinkDialog() {
+
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        const dialogRef = this.dialog.open(AddLinkDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(
+            data => {
+                if (!data) {
+                    console.log("closed");
+                    return;
+                }
+
+                // console.log("userid: "  + data["form"].UserID);
+    
+                var formData = new FormData();
+                if (data["form"].Url) {
+                    formData.append("Url", data["form"].Url);
+                }
+
+                formData.append("UserID", "2");
+               
+                this.submitFormData(formData);
+            });
+    }
+
+    submitFormData(formData: FormData) {
+
+        this.http.post(this.baseUrl + 'api/LinkMonitor/AddNewLink', formData ).subscribe(status => {
+            if (status['result']) {
+                console.log("jeeej");
+            }
+            else {
+                if (status["error_code"] == 421) {
+                    console.log("file with that name already exists");
+                }
+                else {
+                    console.log("form validation failed");
+                }
+            }
+            // window.location.reload();
+        });
+    }
+}
+
+
+class User {
+    constructor (UserID: number) {
+        this.UserID = UserID;
+    }
+
+    UserID: number;
 }
