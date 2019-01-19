@@ -7,6 +7,7 @@ import {FetchDataComponent} from "./fetch-data/fetch-data.component";
 import {LoginComponent} from './login/login.component';
 import {FileUploadComponent} from "./file-upload/file-upload.component";
 import {FetchFoldersComponent} from "./fetch-folders/fetch-folders.component";
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   // {path: '', component: AppComponent, pathMatch: 'full'},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'file-upload', component: FileUploadComponent},
   {path: 'fetch-folders', component: FetchFoldersComponent},
+  {path: 'registration', component: RegistrationComponent},
 ];
 
 @NgModule({
