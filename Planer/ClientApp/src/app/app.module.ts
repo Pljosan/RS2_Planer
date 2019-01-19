@@ -18,7 +18,25 @@ import { LoginComponent } from './login/login.component';
 import {MatDialogModule} from "@angular/material";
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider} from "angularx-social-login";
+import { RegistrationComponent } from './registration/registration.component';
 
+
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider("93909412184-hds3r63pv5fth76u4rbb2qu8qbu0b3qb.apps.googleusercontent.com")
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider("367602984042716")
+  }
+]);
+ 
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -32,6 +50,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     LoginComponent,
     FileUploadComponent,
     FetchFoldersComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,12 +64,18 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatDialogModule,
     MatCheckboxModule,
     MatSlideToggleModule,
+    SocialLoginModule
   ],
   entryComponents: [
     AddTaskDialogComponent,
     FileUploadComponent,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
