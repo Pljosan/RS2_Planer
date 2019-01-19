@@ -10,12 +10,16 @@
 
 <button (click)="openAddLinkDialog()"> Add a new link to monitor!</button>
 
-<p>https://www.jasamlinkcao.com</p><i (click)="checkOffNotification()" class="material-icons" title="dismiss" *ngIf="notificationClicked == false">notification_important</i>
+<div *ngIf="changesPerLink">
+    <div *ngFor="let link of objectKeys(changesPerLink)">
+        <a href="{{link}}">{{link}}</a>
+        <i (click)="checkOffNotification(link)" class="material-icons" title="dismiss" *ngIf="isClicked(link) == false">notification_important</i>
 
-<!-- <button (click)="writeDate()">click</button> -->
-<br>
-<div [ngClass]="additions?.length > 0? 'visible': 'invisible'">
-    <p>Novo na stranici!</p><br>
-    <div #additionsDiv></div>
+        <div [ngClass]="!isClicked(link)? 'visible': 'invisible'">
+            <p>Novo na stranici!</p><br>
+            <div *ngFor="let change of changesPerLink[link]">
+                <div [innerHtml]="change"></div>
+            </div>
+        </div>
+    </div>
 </div>
-
