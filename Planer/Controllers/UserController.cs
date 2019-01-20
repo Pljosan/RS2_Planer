@@ -55,5 +55,24 @@ namespace Planer.Controllers {
             }
             return false;
         }
+
+        [HttpPost("[action]")]
+        public User GetUserOrRegister([FromBody]User user)
+        {
+            // Provera da li postoji user sa istim Facebook/Google id i odgovarajucim Providerom
+            User existUser = repository.GetUserByEmail(user.Email);
+            if(existUser != null && PasswordHash.ScryptHashStringVerify(existUser.Password, user.Password) 
+                    && user.Provider == existUser.Provider){
+                return existUser;
+            }
+            // Ako ne postoji pravimo user-a
+            var hash = PasswordHash.ScryptHashString(user.Password, PasswordHash.Strength.Medium);
+            user.Password = Convert.ToString(hash);
+            repository.Create(user);
+            repository.Save();
+            return user;
+        }
     }
+
+    
 }

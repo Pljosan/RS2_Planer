@@ -26,7 +26,7 @@ import { RegistrationComponent } from './registration/registration.component';
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider("93909412184-hds3r63pv5fth76u4rbb2qu8qbu0b3qb.apps.googleusercontent.com")
+    provider: new GoogleLoginProvider("93909412184-5lsaq8o6qs4lc431bjpmtg2v53siqsuc.apps.googleusercontent.com")
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
