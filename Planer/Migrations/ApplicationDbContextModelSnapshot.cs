@@ -51,6 +51,8 @@ namespace Planer.Migrations
 
                     b.Property<string>("Password");
 
+                    b.Property<string>("Provider");
+
                     b.Property<string>("RootFolderLocation");
 
                     b.HasKey("UserID");

@@ -28,6 +28,21 @@ export class LoginComponent implements OnInit{
   ngOnInit() {
     this.authService.authState.subscribe((user) => {
       this.socialUser = user;
+      console.log(user.email, user.firstName, user.provider, user.id);
+
+      var newUser : User;
+      newUser = new User(user.email, user.id);
+      newUser.FirstName = user.firstName;
+      newUser.LastName = user.lastName;
+      newUser.Provider = user.provider;
+      this.http.post<User>(this.baseUrl + 'api/User/GetUserOrRegister', newUser).subscribe(result => {
+        console.log(result);
+        if(result){
+          this.user = result;
+          this.router.navigate(["users"]);
+        }else{
+          alert("Invalid credentials");
+        }}, error => console.error(error));
     });
   }
 
@@ -76,7 +91,9 @@ class User {
       this.FirstName = null;
       this.LastName = null;
       this.RootFolderLocation = null;
+      this.Provider = null;
   }
+
 
   UserID: number;
   FirstName: string;
@@ -84,4 +101,5 @@ class User {
   Email: string;
   Password: string;
   RootFolderLocation: string;
+  Provider : string;
 }

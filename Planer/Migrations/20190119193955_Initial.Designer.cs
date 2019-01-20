@@ -9,8 +9,8 @@ using Planer.Models;
 namespace Planer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181125173633_tasks")]
-    partial class tasks
+    [Migration("20190119193955_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,8 @@ namespace Planer.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<string>("Password");
+
+                    b.Property<string>("Provider");
 
                     b.Property<string>("RootFolderLocation");
 
