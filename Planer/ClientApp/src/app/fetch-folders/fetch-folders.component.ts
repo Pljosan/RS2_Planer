@@ -5,6 +5,7 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { FolderCreateComponent } from '../folder-create/folder-create.component';
 import { RenameDialogComponent } from '../rename-dialog/rename-dialog.component';
 import { FolderListDialogComponent } from '../folder-list-dialog/folder-list-dialog.component';
+import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
 
 @Component({
   selector: 'app-fetch-folders',
@@ -18,15 +19,18 @@ export class FetchFoldersComponent implements OnInit {
     public subfolders: Array<string>;
     public files: Array<string>;
     public baseUrl: string;
+    private loggedUserId: number;
     
-    constructor(private http: HttpClient, private dialog: MatDialog, @Inject('BASE_URL') baseUrl: string) { 
+    constructor(private http: HttpClient, private dialog: MatDialog, @Inject('BASE_URL') baseUrl: string, private EncrDecr: EncrDecrService) { 
         this.baseUrl = baseUrl;
 
         this.foldersMap = new Map<string, Array<string>>();
 
         var user: User;
-        user = new User(2);        
-
+        this.loggedUserId = parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')));
+        console.log("User id: " + this.loggedUserId);
+        user = new User(this.loggedUserId); 
+        
         http.post<Folder>(baseUrl + 'api/Folder/getRootFolder', user).subscribe(result => {
             this.setContentsAfterPost(result, false);
           }, error => console.error(error));
@@ -41,6 +45,9 @@ export class FetchFoldersComponent implements OnInit {
         this.files = Array.from(Object.keys(result.files));
         this.subfolders = Array.from(Object.keys(result.subfolders));
 
+        this.files.sort();
+        this.subfolders.sort();
+
         if (!back) {
             this.foldersMap.set(this.folderContents.path, this.subfolders);       
         }
@@ -51,7 +58,7 @@ export class FetchFoldersComponent implements OnInit {
 
         var folder: Folder;
         folder = new Folder();        
-        folder.userID = 2;
+        folder.userID = this.loggedUserId;
         folder.groupID = 0;
         folder.path = path;
 
@@ -68,7 +75,7 @@ export class FetchFoldersComponent implements OnInit {
             if (value.includes(path)) {
                 var folder: Folder;
                 folder = new Folder();
-                folder.userID = 2;
+                folder.userID = this.loggedUserId;
                 folder.groupID = 0;
                 folder.path = key;    
 
@@ -108,7 +115,7 @@ export class FetchFoldersComponent implements OnInit {
                 else {
                     formData.append("isUserInputName", "false");
                 }
-                formData.append("UserID", "2");
+                formData.append("UserID", this.loggedUserId.toString());
                 formData.append("File", data["file"], data["file"].name);
                 formData.append("DestFolder", path);
 

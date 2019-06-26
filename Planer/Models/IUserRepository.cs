@@ -9,6 +9,6 @@ namespace Planer.Models {
 
         void Create(User user);
         void Save();
-
+        User GetUserByEmail(string email); 
     }
 }

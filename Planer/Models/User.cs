@@ -14,8 +14,11 @@ namespace Planer.Models {
 
         public string Email { get; set; }
 
+        // U slucaju logovanja preko Facebook/Google ovde se cuva Facebook/Google ID
         public string Password { get; set; }
 
+        // GOOGLE, FACEBOOK, null        
+        public string Provider {get; set; }
     }
 
 }

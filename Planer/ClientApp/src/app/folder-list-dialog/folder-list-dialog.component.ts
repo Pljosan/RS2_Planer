@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
 
 
 @Component({
@@ -17,7 +18,9 @@ export class FolderListDialogComponent implements OnInit {
     public files: Array<string>;
     public baseUrl: string;
 
-    constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private fb: FormBuilder, private dialogRef: MatDialogRef<FolderListDialogComponent>) { 
+    private loggedUserId: number;
+
+    constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private fb: FormBuilder, private dialogRef: MatDialogRef<FolderListDialogComponent>, private EncrDecr: EncrDecrService) { 
         // this.form = this.fb.group({
         //     Destination: ['']
         //  });
@@ -25,8 +28,9 @@ export class FolderListDialogComponent implements OnInit {
 
          this.foldersMap = new Map<string, Array<string>>();
 
+         this.loggedUserId = parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')));
          var user: User;
-         user = new User(2); 
+         user = new User(this.loggedUserId); 
 
          http.post<Folder>(baseUrl + 'api/Folder/getRootFolder', user).subscribe(result => {
             this.setContentsAfterPost(result, false);
@@ -46,7 +50,7 @@ export class FolderListDialogComponent implements OnInit {
 
         var folder: Folder;
         folder = new Folder();        
-        folder.userID = 2;
+        folder.userID = this.loggedUserId;
         folder.groupID = 0;
         folder.path = path;
 
@@ -63,7 +67,7 @@ export class FolderListDialogComponent implements OnInit {
             if (value.includes(path)) {
                 var folder: Folder;
                 folder = new Folder();
-                folder.userID = 2;
+                folder.userID = this.loggedUserId;
                 folder.groupID = 0;
                 folder.path = key;    
 

@@ -8,6 +8,7 @@ import {LoginComponent} from './login/login.component';
 import {FileUploadComponent} from "./file-upload/file-upload.component";
 import {LinkMonitorComponent} from "./link-monitor/link-monitor.component";
 import {FetchFoldersComponent} from "./fetch-folders/fetch-folders.component";
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   // {path: '', component: AppComponent, pathMatch: 'full'},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'file-upload', component: FileUploadComponent},
   {path: 'fetch-folders', component: FetchFoldersComponent},
   {path: 'link-monitor', component: LinkMonitorComponent},
+  {path: 'registration', component: RegistrationComponent},
 ];
 
 @NgModule({

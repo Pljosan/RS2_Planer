@@ -48,15 +48,29 @@ namespace Planer.Controllers {
 
         [HttpPost("[action]")]
         public JsonResult AddNewLink(LinkViewModel linkViewModel) {
+            Dictionary<string, object> res = new Dictionary<string, object>();
 
             User user = userRepository.Users.FirstOrDefault(u => u.UserID == linkViewModel.UserID);
             Link link = new Link { User = user, Url = linkViewModel.Url, PathToFile = "test" };
 
             linkRepository.Save(link);
-            return Json("jej");
+
+            res.Add("result", true);
+            return Json(res);
 
         }
 
+        [HttpPost("[action]")]
+        public JsonResult GetLinks(User user) {
+            Dictionary<string, object> res = new Dictionary<string, object>();
+
+            var links = linkRepository.Links.Select(l => l.Url);
+
+            res.Add("result", true);
+            res.Add("links", links.ToArray());
+            return Json(res);
+
+        }
 
         private async Task<Boolean> getUrlChanges(Link link) {
             
@@ -65,8 +79,10 @@ namespace Planer.Controllers {
             
                 using (HttpResponseMessage response = await client.GetAsync(link.Url, HttpCompletionOption.ResponseHeadersRead)) {
             
+                    Boolean shouldAdd = false;
                     if (System.IO.File.Exists(link.PathToFile)) {
                         
+                        shouldAdd = true;
                         string newText = await response.Content.ReadAsStringAsync();
                         string oldText = await System.IO.File.ReadAllTextAsync(link.PathToFile);
 
@@ -88,8 +104,10 @@ namespace Planer.Controllers {
                     }
 
                     List<string> res = new List<string>();
-                    foreach (var addition in additions) {
-                        res.Add(addition);
+                    if (shouldAdd) {
+                        foreach (var addition in additions) {
+                            res.Add(addition);
+                        }
                     }
                     changesPerUrl.Add(link.Url, res);
                     additions.Clear();

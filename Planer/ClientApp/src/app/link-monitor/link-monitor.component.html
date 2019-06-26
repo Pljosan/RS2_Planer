@@ -12,12 +12,13 @@
 
 <div *ngIf="changesPerLink">
     <div *ngFor="let link of objectKeys(changesPerLink)">
-        <a href="{{link}}">{{link}}</a>
+        <a href="{{link}}" style="color: red;" *ngIf="isClicked(link) == false">{{link}}</a> 
+        <a href="{{link}}" style="color: blue;" *ngIf="isClicked(link) == true">{{link}}</a>
         <i (click)="checkOffNotification(link)" class="material-icons" title="dismiss" *ngIf="isClicked(link) == false">notification_important</i>
 
         <div [ngClass]="!isClicked(link)? 'visible': 'invisible'">
             <p>Novo na stranici!</p><br>
-            <div *ngFor="let change of changesPerLink[link]">
+            <div *ngFor="let change of getValues(changesPerLink, link)">
                 <div [innerHtml]="change"></div>
             </div>
         </div>
