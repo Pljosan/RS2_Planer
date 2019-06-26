@@ -14,6 +14,11 @@ namespace Planer.Models {
         public IQueryable<User> Users => 
             repository.Users;
 
+        public User GetUserByEmail(string email) 
+        {
+            return this.repository.Users.Where(x => (x.Email == email)).FirstOrDefault();
+        }
+
         public void Create(User user)
         {
             this.repository.Set<User>().Add(user);
