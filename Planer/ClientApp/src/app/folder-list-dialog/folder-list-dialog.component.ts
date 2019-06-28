@@ -10,7 +10,7 @@ import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
   templateUrl: './folder-list-dialog.component.html'
 })
 export class FolderListDialogComponent implements OnInit {
-    // public form: FormGroup;
+
     public foldersMap: Map<string, Array<string>>;
 
     public folderContents: Folder;
@@ -21,9 +21,6 @@ export class FolderListDialogComponent implements OnInit {
     private loggedUserId: number;
 
     constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private fb: FormBuilder, private dialogRef: MatDialogRef<FolderListDialogComponent>, private EncrDecr: EncrDecrService) { 
-        // this.form = this.fb.group({
-        //     Destination: ['']
-        //  });
          this.baseUrl = baseUrl;
 
          this.foldersMap = new Map<string, Array<string>>();
@@ -32,7 +29,7 @@ export class FolderListDialogComponent implements OnInit {
          var user: User;
          user = new User(this.loggedUserId); 
 
-         http.post<Folder>(baseUrl + 'api/Folder/getRootFolder', user).subscribe(result => {
+         http.get<Folder>(baseUrl + 'api/Folder/getRootFolder/' + user.userID).subscribe(result => {
             this.setContentsAfterPost(result, false);
           }, error => console.error(error));
     }
@@ -52,9 +49,9 @@ export class FolderListDialogComponent implements OnInit {
         folder = new Folder();        
         folder.userID = this.loggedUserId;
         folder.groupID = 0;
-        folder.path = path;
+        folder.path = path.replace(/\//g, "%2F");
 
-        this.http.post<Folder>(this.baseUrl + 'api/Folder/getFolderContents', folder).subscribe(result => {
+        this.http.get<Folder>(this.baseUrl + 'api/Folder/getFolderContents/' + folder.userID + '/' + encodeURI(folder.path)).subscribe(result => {
             this.setContentsAfterPost(result, false);
           }, error => console.error(error));        
     }
@@ -69,9 +66,9 @@ export class FolderListDialogComponent implements OnInit {
                 folder = new Folder();
                 folder.userID = this.loggedUserId;
                 folder.groupID = 0;
-                folder.path = key;    
+                folder.path = key.replace(/\//g, "%2F");    
 
-                this.http.post<Folder>(this.baseUrl + 'api/Folder/getFolderContents', folder).subscribe(result => {
+                this.http.get<Folder>(this.baseUrl + 'api/Folder/getFolderContents/' + folder.userID + '/' + encodeURI(folder.path)).subscribe(result => {
                     this.setContentsAfterPost(result, true);
                   }, error => console.error(error)); 
                   
@@ -105,8 +102,8 @@ class Folder {
 
 class User {
     constructor (UserID: number) {
-        this.UserID = UserID;
+        this.userID = UserID;
     }
 
-    UserID: number;
+    userID: number;
 }

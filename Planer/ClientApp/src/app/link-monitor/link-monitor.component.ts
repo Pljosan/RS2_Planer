@@ -138,7 +138,7 @@ export class LinkMonitorComponent implements OnInit {
 
     submitFormData(formData: FormData) {
 
-        this.http.put(this.baseUrl + 'api/LinkMonitor/AddNewLink/' + this.loggedUserId, formData ).subscribe(status => {
+        this.http.post(this.baseUrl + 'api/LinkMonitor/AddNewLink', formData ).subscribe(status => {
             if (status['result']) {
                 console.log("jeeej");
                 this.getLinks();

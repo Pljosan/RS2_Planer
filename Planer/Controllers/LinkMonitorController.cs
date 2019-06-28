@@ -46,8 +46,8 @@ namespace Planer.Controllers {
             return Json(res);
         }
 
-        [HttpPut("[action]/{userId}")]
-        public JsonResult AddNewLink(int id, LinkViewModel linkViewModel) {
+        [HttpPost("[action]")]
+        public JsonResult AddNewLink(LinkViewModel linkViewModel) {
             Dictionary<string, object> res = new Dictionary<string, object>();
 
             User user = userRepository.Users.FirstOrDefault(u => u.UserID == linkViewModel.UserID);
