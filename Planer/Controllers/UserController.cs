@@ -29,6 +29,14 @@ namespace Planer.Controllers {
             return repository.Users;
         }
 
+        [HttpGet("[action]/{userId}")]
+        public User GetUserInfo(long userId)
+        {
+            return repository.Users.FirstOrDefault(u => u.UserID == userId);
+        }
+
+
+
         [HttpPost("[action]")]
         public User GetUser([FromBody]User user)
         {
@@ -84,6 +92,20 @@ namespace Planer.Controllers {
             user.Password = Convert.ToString(hash);
             repository.Create(user);
             repository.Save();
+
+            user.RootFolderLocation = "../../user" + user.UserID + "/";
+            user.LinkFolderLocation = "../../user" + user.UserID + "_links/";
+            if (!Directory.Exists(user.RootFolderLocation)) {
+                Directory.CreateDirectory(user.RootFolderLocation);
+            }
+
+            if (!Directory.Exists(user.LinkFolderLocation)) {
+                Directory.CreateDirectory(user.LinkFolderLocation);
+            }
+
+
+            repository.Save();
+
             return user;
         }
     }
