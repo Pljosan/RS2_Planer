@@ -8,5 +8,7 @@ namespace Planer.Models
         IQueryable<Link> Links { get; }
 
         void Save (Link link);
+        void Save ();
+        void Delete(Link link);
     }
 }

@@ -18,6 +18,8 @@ export class LinkMonitorComponent implements OnInit {
     public notificationClicked : Map<string, Boolean>;
     public changesPerLink : Map<string, Array<string>>;
     private loggedUserId: number;
+    private linkIdMap: Map<string, number>;
+
 
     constructor (private dialog: MatDialog, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private EncrDecr: EncrDecrService) { 
         this.baseUrl = baseUrl;
@@ -25,7 +27,7 @@ export class LinkMonitorComponent implements OnInit {
         this.changesPerLink = new Map<string, Array<string>>();
         this.notificationClicked = new Map<string, Boolean>();
         this.loggedUserId = parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')));
-
+        this.linkIdMap = new Map<string, number>();
         
     }
 
@@ -62,26 +64,47 @@ export class LinkMonitorComponent implements OnInit {
         return false;
     }
 
-    getLinks() {
-        var user : User;
-        user = new User(this.loggedUserId);
+    deleteLink(link : string) {
+        var linkToDelete = this.linkIdMap.get(link);
 
-        this.http.post<Map<string, Object>>(this.baseUrl + 'api/LinkMonitor/getLinks', user).subscribe(result => {
+        this.http.delete(this.baseUrl + 'api/LinkMonitor/DeleteLink/' + linkToDelete).subscribe(status => {
+            if (status['result']) {
+                console.log("jeeej");
+                this.changesPerLink.delete(link);
+                this.notificationClicked.delete(link);
+                this.getLinks();
+            }
+            else {
+                console.log("Delete failed");
+            }
+
+        });
+    }
+
+    getLinks() {
+        this.http.get<Map<string, Object>>(this.baseUrl + 'api/LinkMonitor/getLinks/' + this.loggedUserId).subscribe(result => {
+            console.log(result);
             result["links"].forEach(link => {
-                this.changesPerLink.set(link, new Array<string>());
-                this.notificationClicked.set(link, true);
+                console.log("url " + link.url);
+                console.log("user ");
+                console.log(link.user);
+                console.log("userid " + link.user.userID)
+                this.changesPerLink.set(link.url, new Array<string>());
+                this.notificationClicked.set(link.url, true);
+                this.linkIdMap.set(link.url, link.linkID);
             });
         }, error => console.error(error));
     }
 
     getChanges() {
-        this.http.get<Map<string, Object>>(this.baseUrl + 'api/LinkMonitor/getModifyDate').subscribe(result => {
+        this.http.get<Map<string, Object>>(this.baseUrl + 'api/LinkMonitor/getModifyDate/' + this.loggedUserId).subscribe(result => {
             var changes = result["additions"];
             Object.keys(changes).forEach(key => {
                 if (changes[key].length > 0) {
-                    this.notificationClicked.set(key, false);
-                    if (changes[key].length <= 5)
+                    if (changes[key].length <= 5) {
                         this.changesPerLink.set(key, changes[key]);
+                        this.notificationClicked.set(key, false);
+                    }
                 }
             });
 
@@ -102,9 +125,6 @@ export class LinkMonitorComponent implements OnInit {
                     console.log("closed");
                     return;
                 }
-
-                // console.log("userid: "  + data["form"].UserID);
-    
                 var formData = new FormData();
                 if (data["form"].Url) {
                     formData.append("Url", data["form"].Url);
@@ -118,12 +138,10 @@ export class LinkMonitorComponent implements OnInit {
 
     submitFormData(formData: FormData) {
 
-        this.http.post(this.baseUrl + 'api/LinkMonitor/AddNewLink', formData ).subscribe(status => {
+        this.http.put(this.baseUrl + 'api/LinkMonitor/AddNewLink/' + this.loggedUserId, formData ).subscribe(status => {
             if (status['result']) {
                 console.log("jeeej");
-                this.notificationClicked.set(formData.get['Url'], true);
-                this.changesPerLink.set(formData.get['Url'], new Array<string>());
-                window.location.reload();
+                this.getLinks();
             }
             else {
                 if (status["error_code"] == 421) {
@@ -140,8 +158,18 @@ export class LinkMonitorComponent implements OnInit {
 
 class User {
     constructor (UserID: number) {
-        this.UserID = UserID;
+        this.userID = UserID;
     }
 
-    UserID: number;
+    userID: number;
+}
+
+class Link {
+    constructor (url : string, user : User) {
+        this.url = url;
+        this.user = user;
+    }
+
+    url: string;
+    user: User;
 }

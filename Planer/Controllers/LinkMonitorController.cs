@@ -31,13 +31,13 @@ namespace Planer.Controllers {
             this.userRepository = userRepository;
         }
 
-        [HttpGet("[action]")]
-        public async Task<JsonResult> getModifyDate() {
+        [HttpGet("[action]/{userId}")]
+        public async Task<JsonResult> getModifyDate(long userId) {
 
             Dictionary<string, object> res = new Dictionary<string, object>();
 
                 
-            var tasks = linkRepository.Links.Select(l => getUrlChanges(l));
+            var tasks = linkRepository.Links.Where(l => l.User.UserID == userId).Select(l => getUrlChanges(l));
             var results = await System.Threading.Tasks.Task.WhenAll(tasks);
 
             res.Add("result", true);
@@ -46,8 +46,8 @@ namespace Planer.Controllers {
             return Json(res);
         }
 
-        [HttpPost("[action]")]
-        public JsonResult AddNewLink(LinkViewModel linkViewModel) {
+        [HttpPut("[action]/{userId}")]
+        public JsonResult AddNewLink(int id, LinkViewModel linkViewModel) {
             Dictionary<string, object> res = new Dictionary<string, object>();
 
             User user = userRepository.Users.FirstOrDefault(u => u.UserID == linkViewModel.UserID);
@@ -66,16 +66,39 @@ namespace Planer.Controllers {
 
         }
 
-        [HttpPost("[action]")]
-        public JsonResult GetLinks(User user) {
+        // [HttpPost("[action]")]
+        // [FromBody] User user
+        [HttpGet("[action]/{userId}")]
+        public JsonResult GetLinks(long userId) {
             Dictionary<string, object> res = new Dictionary<string, object>();
 
-            var links = linkRepository.Links.Select(l => l.Url);
+            Console.WriteLine("user " + userId);
+
+            var links = linkRepository.Links.Where(l => l.User.UserID == userId); //.Select(l => l.Url)
+            var linkArray = links.ToArray();
+            Console.WriteLine("links:");
+            Console.WriteLine(linkArray.Length);
 
             res.Add("result", true);
-            res.Add("links", links.ToArray());
+            res.Add("links", linkArray);
             return Json(res);
 
+        }
+
+        [HttpDelete("[action]/{linkId}")]
+        public JsonResult deleteLink(long linkId) {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            
+            Console.WriteLine("deleting " + linkId);
+
+            var linkToBeDeleted = linkRepository.Links.FirstOrDefault(l => l.LinkID == linkId);
+
+            System.IO.File.Delete(linkToBeDeleted.PathToFile);            
+            linkRepository.Delete(linkToBeDeleted);
+            linkRepository.Save();
+            
+            result.Add("result", true);
+            return Json(result);
         }
 
         private async Task<Boolean> getUrlChanges(Link link) {
