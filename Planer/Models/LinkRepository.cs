@@ -25,6 +25,18 @@ namespace Planer.Models
             repository.SaveChanges();                
         }
 
+        public void Save ()
+        {
+            repository.SaveChanges();                
+        }
+
+
+        public void Delete(Link link) 
+        {
+            Link existing = repository.Links.Find(link.LinkID);
+            repository.Remove(existing);
+        }
+
     }
 
 }

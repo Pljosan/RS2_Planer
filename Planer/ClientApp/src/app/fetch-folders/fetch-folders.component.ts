@@ -497,10 +497,10 @@ export class FetchFoldersComponent implements OnInit {
 
 class User {
     constructor (UserID: number) {
-        this.UserID = UserID;
+        this.userID = UserID;
     }
 
-    UserID: number;
+    userID: number;
 }
 
 class Folder {

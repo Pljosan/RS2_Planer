@@ -18,12 +18,12 @@
            <button (click)="openAddLinkDialog()" class="mat-raised-button mat-primary"> Add a new link to monitor!</button>
         </mat-card-actions>
 
-        <div *ngIf="changesPerLink">
+        <!-- <div *ngIf="changesPerLink">
             <div *ngFor="let link of objectKeys(changesPerLink)">
                 <a href="{{link}}" class="mat-stroked-button mat-warn" *ngIf="isClicked(link) == false">{{link}}</a> 
                 <a href="{{link}}" class="mat-stroked-button mat-primary" *ngIf="isClicked(link) == true">{{link}}</a>
                 <i (click)="checkOffNotification(link)" class="material-icons" title="dismiss" *ngIf="isClicked(link) == false">notification_important</i>
-
+                <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteLink(link)" title="delete"><i class="material-icons">delete</i></button>
                 <div [ngClass]="!isClicked(link)? 'visible': 'invisible'">
                     <p>Novo na stranici!</p><br>
                     <div *ngFor="let change of getValues(changesPerLink, link)">
@@ -31,7 +31,31 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+        <table class='table' *ngIf="changesPerLink">
+            <thead>
+              <tr>
+                <th></th>
+                <th>URI</th>
+                <th>Notifications</th>
+                <th>Operations</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let link of objectKeys(changesPerLink)">
+                <td><i class="material-icons">launch</i></td>
+                <td>
+                    <a href="{{link}}" stlyle="min-width:3em; max-width:3em;" class="mat-button mat-warn" *ngIf="isClicked(link) == false">{{link}}</a>
+                    <a href="{{link}}" stlyle="min-width:3em; max-width:3em;" class="mat-button mat-primary" *ngIf="isClicked(link) == true">{{link}}</a>
+                </td>
+                <td><i (click)="checkOffNotification(link)" class="material-icons" title="dismiss" *ngIf="isClicked(link) == false">notification_important</i></td>
+                <td colspan="1" style="text-align: right;">
+                    <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteLink(link)" title="delete"><i class="material-icons">delete</i></button>  
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
     </mat-card-content>
 
