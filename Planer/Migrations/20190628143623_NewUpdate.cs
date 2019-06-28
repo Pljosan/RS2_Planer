@@ -16,7 +16,8 @@ namespace Planer.Migrations
                     UserId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Date = table.Column<string>(nullable: true),
-                    Time = table.Column<string>(nullable: true)
+                    Time = table.Column<string>(nullable: true),
+                    GroupID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,6 +33,7 @@ namespace Planer.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     RootFolderLocation = table.Column<string>(nullable: true),
+                    LinkFolderLocation = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Provider = table.Column<string>(nullable: true)

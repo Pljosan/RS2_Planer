@@ -17,25 +17,51 @@
 <!--<router-outlet></router-outlet>-->
 <!--</mat-sidenav-content>-->
 <!--</mat-sidenav-container>-->
-<div>
-  <mat-toolbar color="primary">
-    <mat-toolbar-row class="toolbar">
-      <div class="link " routerLink="/users">Users</div>
-      <div class="link " routerLink="/login">Login</div>
-      <div class="link " routerLink="/registration">Register</div>
-      <div class="link " routerLink="/calendar">Calendar</div>
-      <div class="link " routerLink="/fetch-data">Fetch data</div>
-      <div class="link " routerLink="/fetch-folders">Fetch folders</div>
-      <div class="link " routerLink="/link-monitor">Link monitor</div>
-    </mat-toolbar-row>
-  </mat-toolbar>
-    <!-- </div> -->
-  <!-- </mat-sidenav> -->
 
-  <!-- <mat-sidenav-content> -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="toolbar">
+    <div class="container">
+      <div class="bar-button" (click)="myFunction(bars); menu.toggle()">
+        <div class="container1" #bars>
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
+          <div class="bar bar3"></div>
+        </div>
+      </div>
 
-  <div>
-    <router-outlet></router-outlet>
-  </div>
-  <!-- <mat-toolbar class="example-footer">Footer</mat-toolbar> -->
-</div>
+      <div class="menu-button">
+        <div class="link " routerLink="/users">Users</div>
+        <div class="link " routerLink="/login">Login</div>
+        <div class="link " routerLink="/registration">Register</div>
+        <div class="link " routerLink="/calendar">Calendar</div>
+        <div class="link " routerLink="/fetch-data">Fetch data</div>
+        <div class="link " routerLink="/fetch-folders">Fetch folders</div>
+        <div class="link " routerLink="/link-monitor">Link monitor</div>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<!-- </div> -->
+<!-- </mat-sidenav> -->
+
+<!-- <mat-sidenav-content> -->
+
+<!--side nav-->
+<main class="mainSidenav mat-typography">
+  <mat-sidenav-container class="sidenavContainer">
+    <mat-sidenav #menu mode="push" class="example-sidenav" (closed)="onCloseSidenav()">
+      <div class="btns">
+        <!--routerLinkActive="active"-->
+        <span class="spanBtns" mat-menu-item (click)="menu.toggle();" routerLink="/calendar"
+              routerLinkActive="active">
+          {{ 'Calendar' }}
+        </span>
+      </div>
+    </mat-sidenav>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>
+</main>
+
+<!-- <mat-toolbar class="example-footer">Footer</mat-toolbar> -->

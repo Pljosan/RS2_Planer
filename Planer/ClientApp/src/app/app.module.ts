@@ -27,6 +27,7 @@ import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider} from "angularx-social-login";
 import { RegistrationComponent } from './registration/registration.component';
 import { EncrDecrService } from '../app/encr-decr/encr-decr-service.service';
+import { DayTasksDialogComponent } from './day-tasks-dialog/day-tasks-dialog.component';
 
 
 
@@ -64,6 +65,7 @@ export function provideConfig() {
     AddLinkDialogComponent,
     RegistrationComponent,
     // LoginRegistration
+    DayTasksDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,6 +88,7 @@ export function provideConfig() {
     RenameDialogComponent,
     FolderListDialogComponent,
     AddLinkDialogComponent,
+    DayTasksDialogComponent
   ],
   providers: [
     {

@@ -46,6 +46,8 @@ namespace Planer.Migrations
 
                     b.Property<string>("Date");
 
+                    b.Property<string>("GroupID");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("Time");
