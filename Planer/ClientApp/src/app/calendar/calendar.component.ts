@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material";
 import {AddTaskDialogComponent} from "../add-task-dialog/add-task-dialog.component";
 import {Task} from "./task.model";
 import {DayTasksDialogComponent} from "../day-tasks-dialog/day-tasks-dialog.component";
+import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
 
 @Component({
   selector: 'app-calendar',
@@ -23,6 +24,7 @@ export class CalendarComponent implements OnInit {
   freeDaysAfter;
   daysData = [];
   calendarTittle;
+  loggedUserId;
 
 
   taskData = [
@@ -45,8 +47,11 @@ export class CalendarComponent implements OnInit {
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,
               private cd: ChangeDetectorRef,
-              private dialog: MatDialog) {
-    http.get<Task[]>(baseUrl + 'api/Task/GetTasks').subscribe(result => {
+              private dialog: MatDialog,
+              private EncrDecr: EncrDecrService) {
+
+    this.loggedUserId = parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')));
+    http.get<Task[]>(baseUrl + 'api/Task/GetTasks/' + this.loggedUserId).subscribe(result => {
       this.tasks = result;
       console.log(this.tasks);
       this.fillDaysData();
@@ -75,7 +80,7 @@ export class CalendarComponent implements OnInit {
 
       addTaskDialogRef.afterClosed().subscribe(res => {
         if (res === 'submitted') {
-          this.http.get<Task[]>(this.baseUrl + 'api/Task/GetTasks').subscribe(result => {
+          this.http.get<Task[]>(this.baseUrl + 'api/Task/GetTasks/' + this.loggedUserId).subscribe(result => {
             this.tasks = result;
             this.fillDaysData();
           }, error => console.error(error));
@@ -96,7 +101,7 @@ export class CalendarComponent implements OnInit {
 
           addTaskDialogRef.afterClosed().subscribe(res => {
             if (res === 'submitted') {
-              this.http.get<Task[]>(this.baseUrl + 'api/Task/GetTasks').subscribe(result => {
+              this.http.get<Task[]>(this.baseUrl + 'api/Task/GetTasks/' + this.loggedUserId).subscribe(result => {
                 this.tasks = result;
                 this.fillDaysData();
               }, error => console.error(error));

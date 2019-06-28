@@ -23,13 +23,18 @@ import { LoginComponent } from './login/login.component';
 import {MatDialogModule} from "@angular/material";
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { SocialLoginModule, AuthServiceConfig, LoginOpt } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider} from "angularx-social-login";
 import { RegistrationComponent } from './registration/registration.component';
 import { EncrDecrService } from '../app/encr-decr/encr-decr-service.service';
 import { DayTasksDialogComponent } from './day-tasks-dialog/day-tasks-dialog.component';
+import { AuthGuardService } from './auth-guard.service';
 
-
+const fbLoginOptions: LoginOpt = {
+  scope: 'email',
+  return_scopes: true,
+  enable_profile_selector: true
+};
 
 let config = new AuthServiceConfig([
   {
@@ -38,10 +43,10 @@ let config = new AuthServiceConfig([
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider("367602984042716")
+    provider: new FacebookLoginProvider("660424481050733", fbLoginOptions)
   }
 ]);
- 
+//Anja: 367602984042716|z9msL7WLEIUftUipcHQw5L2_xBw
 export function provideConfig() {
   return config;
 }
@@ -95,7 +100,8 @@ export function provideConfig() {
       provide: AuthServiceConfig,
       useFactory: provideConfig
     },
-    EncrDecrService
+    EncrDecrService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

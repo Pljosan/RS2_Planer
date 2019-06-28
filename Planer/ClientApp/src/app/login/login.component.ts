@@ -20,31 +20,21 @@ export class LoginComponent implements OnInit{
   public password: string;
   public baseUrl : string;
   public http : HttpClient;
+  public loggedIn : boolean;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private router: Router, private authService: AuthService, private EncrDecr: EncrDecrService) {
     this.baseUrl = baseUrl;
     this.http = http;
+    this.loggedIn = false;
   }
 
   ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      this.socialUser = user;
-      console.log(user.email, user.firstName, user.provider, user.id);
-
-      var newUser : User;
-      newUser = new User(user.email, user.id);
-      newUser.FirstName = user.firstName;
-      newUser.LastName = user.lastName;
-      newUser.Provider = user.provider;
-      this.http.post<User>(this.baseUrl + 'api/User/GetUserOrRegister', newUser).subscribe(result => {
-        console.log(result);
-        if(result){
-          this.user = result;
-          this.router.navigate(["users"]);
-        }else{
-          alert("Invalid credentials");
-        }}, error => console.error(error));
-    });
+    if (sessionStorage.getItem("id") === null) {
+      this.loggedIn = false;
+    }
+    else {
+      this.loggedIn = true;
+    }
   }
 
   signInWithGoogle(): void {
@@ -53,14 +43,36 @@ export class LoginComponent implements OnInit{
 
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+
+    this.authService.authState.subscribe((user) => {
+      this.socialUser = user;
+      console.log(user.email, user.firstName, user.provider, user.id);
+      
+      var newUser : User;
+      newUser = new User(user.email, user.id);
+      newUser.FirstName = user.firstName;
+      newUser.LastName = user.lastName;
+      newUser.Provider = user.provider;
+      this.http.post<User>(this.baseUrl + 'api/User/GetUserOrRegister', newUser).subscribe(result => {
+        console.log(result);
+        if(result){
+          this.loggedIn = true;
+          this.user = result;
+          var encryptedUserId = this.EncrDecr.set("123456$#@$^@1ERF", this.user.userID.toString());
+          sessionStorage.setItem('id', encryptedUserId);
+        }else{
+          alert("Invalid credentials");
+        }}, error => console.error(error));
+    });
+  }
+
+  logout() {
+    this.authService.signOut();
+    sessionStorage.removeItem("id");
+    this.loggedIn = false;
   }
 
   login(): void {
-    // if(this.users.find(x => (x.email == this.email && x.password == this.password)) != null){
-    //   this.router.navigate(["users"]);
-    // } else {
-    //   alert("Invalid credentials");
-    // }
     var newUser : User;
     newUser = new User(this.email, this.password);
     this.http.post<User>(this.baseUrl + 'api/User/GetUser', newUser).subscribe(result => {
@@ -68,6 +80,7 @@ export class LoginComponent implements OnInit{
       if(result){
         this.user = result;
         this.router.navigate(["users"]);
+        this.loggedIn = true;
 
         var encryptedUserId = this.EncrDecr.set("123456$#@$^@1ERF", result.userID.toString());
         sessionStorage.setItem('id', encryptedUserId);
@@ -77,13 +90,6 @@ export class LoginComponent implements OnInit{
 
   }
 
-  /*login1(): void {
-    if (this.username == 'admin' && this.password == 'admin') {
-      this.router.navigate(["users"]);
-    } else {
-      alert("Invalid credentials");
-    }
-  }*/
 
 }
 

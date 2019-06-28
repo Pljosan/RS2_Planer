@@ -1,5 +1,5 @@
 <div>
-  <mat-card class="example_class">
+  <mat-card class="example_class" *ngIf="!loggedIn">
     <mat-card-header>
         <mat-card-title>Login</mat-card-title>
     </mat-card-header>
@@ -12,7 +12,7 @@
 
    <mat-card class="example_class">
     <mat-card-header></mat-card-header>
-    <mat-card-content>
+    <mat-card-content *ngIf="!loggedIn">
       <form class="my-form">
         <table class="my-width" cellspacing="0">
           <tr>
@@ -31,7 +31,8 @@
       <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button (click)="login()" color="primary">Login</button>
+      <button mat-raised-button (click)="login()" color="primary" *ngIf="!loggedIn">Login</button>
+      <button (click)="logout()" class="mat-raised-button mat-primary" *ngIf="loggedIn">Logout</button>
     </mat-card-actions>
   </mat-card>
 </div>

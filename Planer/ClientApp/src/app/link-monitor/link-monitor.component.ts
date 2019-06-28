@@ -48,8 +48,8 @@ export class LinkMonitorComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        console.log("timer stopped");
-        this.timer.unsubscribe();
+        // console.log("timer stopped");
+        // this.timer.unsubscribe();
     }
 
     checkOffNotification(link : string) {
@@ -99,6 +99,7 @@ export class LinkMonitorComponent implements OnInit {
     getChanges() {
         this.http.get<Map<string, Object>>(this.baseUrl + 'api/LinkMonitor/getModifyDate/' + this.loggedUserId).subscribe(result => {
             var changes = result["additions"];
+            console.log("fetched changes");
             Object.keys(changes).forEach(key => {
                 if (changes[key].length > 0) {
                     if (changes[key].length <= 5) {

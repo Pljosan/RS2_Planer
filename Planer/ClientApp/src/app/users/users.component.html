@@ -1,3 +1,29 @@
-<p>
-  users works!
-</p>
+<p *ngIf="!user"><em>Loading...</em></p>
+
+<mat-card class="user-card" *ngIf="user">
+
+  <mat-card-header>
+      <mat-card-title>User info</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+  </mat-card-content>
+
+</mat-card>

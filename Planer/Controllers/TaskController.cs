@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Planer.Models;
+using System.Linq;
 
 namespace Planer.Controllers
 {   
@@ -14,10 +15,11 @@ namespace Planer.Controllers
             this.repository = repository;
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<Task> GetTasks()
+        [HttpGet("[action]/{userId}")]
+        public IEnumerable<Task> GetTasks(int userId)
         {
-            return repository.Tasks;
+            var tasks = repository.Tasks.Where(l => l.UserId == userId);
+            return tasks;
         }
 
         [HttpPost("[action]")]

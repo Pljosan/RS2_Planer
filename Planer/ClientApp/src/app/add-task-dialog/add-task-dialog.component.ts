@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import {FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {HttpClient} from "@angular/common/http";
+import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -26,6 +27,7 @@ export class AddTaskDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddTaskDialogComponent>,
     public http: HttpClient,
+    private EncrDecr: EncrDecrService,
     @Inject('BASE_URL') public baseUrl: string,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
@@ -34,7 +36,8 @@ export class AddTaskDialogComponent implements OnInit {
     this.form = new FormGroup({
       name: new FormControl('ttt'),
       date: new FormControl(this.data.date.format('YYYY-MM-DD')),
-      time: new FormControl()
+      time: new FormControl(),
+      userId: new FormControl(parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id'))))
     })
   }
 
