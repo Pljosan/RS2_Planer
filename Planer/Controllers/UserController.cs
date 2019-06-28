@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Planer.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using Sodium;
 using System;
@@ -50,6 +51,19 @@ namespace Planer.Controllers {
                 var hash = PasswordHash.ScryptHashString(user.Password, PasswordHash.Strength.Medium);
                 user.Password = Convert.ToString(hash);
                 repository.Create(user);
+                repository.Save();
+
+                user.RootFolderLocation = "../../user" + user.UserID + "/";
+                user.LinkFolderLocation = "../../user" + user.UserID + "_links/";
+                if (!Directory.Exists(user.RootFolderLocation)) {
+                    Directory.CreateDirectory(user.RootFolderLocation);
+                }
+
+                if (!Directory.Exists(user.LinkFolderLocation)) {
+                    Directory.CreateDirectory(user.LinkFolderLocation);
+                }
+
+
                 repository.Save();
                 return true;
             }

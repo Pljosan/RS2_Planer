@@ -10,7 +10,7 @@ using Planer.Models;
 namespace Planer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190626163803_NewUpdate")]
+    [Migration("20190628143623_NewUpdate")]
     partial class NewUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,8 @@ namespace Planer.Migrations
 
                     b.Property<string>("Date");
 
+                    b.Property<string>("GroupID");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("Time");
@@ -70,6 +72,8 @@ namespace Planer.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
+
+                    b.Property<string>("LinkFolderLocation");
 
                     b.Property<string>("Password");
 

@@ -12,6 +12,12 @@ namespace Planer.Models
 
         public IQueryable<Task> Tasks => 
             repository.Tasks;
+        
+        public void AddTask(Task task)
+        {
+            this.repository.Set<Task>().Add(task);
+            this.repository.SaveChanges();
+        }
     }
 
 }
