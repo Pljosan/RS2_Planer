@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 
@@ -10,10 +11,6 @@ using Planer.Models;
 
 namespace Planer.Controllers {
 
-    /// <summary>
-    /// File upload controller.
-    /// Contains an api endpoint for file upload.
-    /// </summary>
     [Route("api/[controller]")]
     public class FileUploadController : Controller {
 
@@ -23,15 +20,6 @@ namespace Planer.Controllers {
             this.repository = repository;
         }    
 
-        /// <summary>
-        /// Parses the FormData (<paramref name="file"/> received from the browser, validates it and saves the file to user's repository.
-        /// </summary>
-        /// <param name="file"/>FileUpload type object
-        /// <returns>
-        /// Returns the following JSON:
-        /// On success: <c> {"result": bool} </c>
-        /// On failure: <c> {"result": bool, "error_code": int, "error_message": string} </c>
-        /// </returns>
         [HttpPost("[action]")]
         public JsonResult UploadFileForm(FileUpload file) {
 
@@ -89,12 +77,13 @@ namespace Planer.Controllers {
             
         }
 
-        [HttpPost("[action]")]
-        public FileContentResult downloadFile([FromBody] FileUpload file){
-            var content = System.IO.File.ReadAllBytes(file.FileName);
+        [HttpGet("[action]/{fileName}")]
+        public FileContentResult downloadFile(string fileName){
+            fileName = WebUtility.UrlDecode(fileName);
+            var content = System.IO.File.ReadAllBytes(fileName);
             var contentType = "APPLICATION/octet-stream";
-            var fileName = "something.bin";
-            return File(content, contentType, fileName);
+            var newFileName = "something.bin";
+            return File(content, contentType, newFileName);
         }
 
         [HttpDelete("[action]/{path}")]

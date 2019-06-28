@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 
@@ -19,9 +20,9 @@ namespace Planer.Controllers {
             this.repository = repository;
         }    
 
-        [HttpPost("[action]")]
-        public JsonResult getRootFolder([FromBody] User user) {
-            User userProfile = repository.Users.Where(p => p.UserID == user.UserID).FirstOrDefault();
+        [HttpGet("[action]/{userId}")]
+        public JsonResult getRootFolder(long userId) {
+            User userProfile = repository.Users.Where(p => p.UserID == userId).FirstOrDefault();
 
             Folder rootFolder = new Folder{ UserID = userProfile.UserID, GroupID = 0, Path = userProfile.RootFolderLocation, Name = "Root" };
             Folder resultFolder = createReturnFolder(rootFolder);
@@ -29,10 +30,10 @@ namespace Planer.Controllers {
             return Json(resultFolder);
         }
 
-        [HttpPost("[action]")]
-        public JsonResult getFolderContents([FromBody] Folder folder) {
-
-            Folder prepFolder = new Folder{ UserID = folder.UserID, GroupID = 0, Path = folder.Path, Name = folder.Name };
+        [HttpGet("[action]/{userId}/{folderPath}")]
+        public JsonResult getFolderContents(int userId, string folderPath) {
+            folderPath = WebUtility.UrlDecode(folderPath);
+            Folder prepFolder = new Folder{ UserID = userId, GroupID = 0, Path = folderPath };
             Folder resultFolder = createReturnFolder(prepFolder);
 
             return Json(resultFolder);
@@ -52,14 +53,15 @@ namespace Planer.Controllers {
             return Json(result);
         }
 
-        [HttpPost("[action]")]
-        public JsonResult deleteFolder([FromBody] Folder folder) {
+        [HttpDelete("[action]/{folderPath}")]
+        public JsonResult deleteFolder(string folderPath) {
+            folderPath = WebUtility.UrlDecode(folderPath);
             Dictionary<string, object> result = new Dictionary<string, object>();
             
-            Console.WriteLine("deleting " + folder.Path);
+            Console.WriteLine("deleting " + folderPath);
 
-            if (Directory.Exists(folder.Path)) {
-                Directory.Delete(folder.Path, true);
+            if (Directory.Exists(folderPath)) {
+                Directory.Delete(folderPath, true);
             }
             
             

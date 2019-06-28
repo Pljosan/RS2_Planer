@@ -31,7 +31,7 @@ export class FetchFoldersComponent implements OnInit {
         console.log("User id: " + this.loggedUserId);
         user = new User(this.loggedUserId); 
         
-        http.post<Folder>(baseUrl + 'api/Folder/getRootFolder', user).subscribe(result => {
+        http.get<Folder>(baseUrl + 'api/Folder/getRootFolder/' + user.userID).subscribe(result => {
             this.setContentsAfterPost(result, false);
           }, error => console.error(error));
     }
@@ -60,9 +60,9 @@ export class FetchFoldersComponent implements OnInit {
         folder = new Folder();        
         folder.userID = this.loggedUserId;
         folder.groupID = 0;
-        folder.path = path;
+        folder.path = path.replace(/\//g, "%2F");
 
-        this.http.post<Folder>(this.baseUrl + 'api/Folder/getFolderContents', folder).subscribe(result => {
+        this.http.get<Folder>(this.baseUrl + 'api/Folder/getFolderContents/' + folder.userID + '/' + encodeURI(folder.path)).subscribe(result => {
             this.setContentsAfterPost(result, false);
           }, error => console.error(error));        
     }
@@ -77,9 +77,9 @@ export class FetchFoldersComponent implements OnInit {
                 folder = new Folder();
                 folder.userID = this.loggedUserId;
                 folder.groupID = 0;
-                folder.path = key;    
+                folder.path = key.replace(/\//g, "%2F");    
 
-                this.http.post<Folder>(this.baseUrl + 'api/Folder/getFolderContents', folder).subscribe(result => {
+                this.http.get<Folder>(this.baseUrl + 'api/Folder/getFolderContents/' + folder.userID + '/' + encodeURI(folder.path)).subscribe(result => {
                     this.setContentsAfterPost(result, true);
                   }, error => console.error(error)); 
                   
@@ -324,15 +324,14 @@ export class FetchFoldersComponent implements OnInit {
         });
     }
 
-    //TODO: change from post to delete
     deleteFolder(path: string) {
 
         console.log("deleting " + path);
 
         var folder = new Folder();
-        folder.path = path; 
+        folder.path = path.replace(/\//g, "%2F"); 
 
-        this.http.post(this.baseUrl + 'api/Folder/DeleteFolder', folder ).subscribe(status => {
+        this.http.delete(this.baseUrl + 'api/Folder/DeleteFolder/' + encodeURI(folder.path) ).subscribe(status => {
             if (status['result']) {
                 console.log("jeeej");
             }
@@ -379,13 +378,13 @@ export class FetchFoldersComponent implements OnInit {
         console.log("SUPER BITNO: " + path);
 
         var file = new FileUpload();
-        file.FileName = path;
+        file.FileName = path.replace(/\//g, "%2F");
 
         var ind = path.lastIndexOf("/");
         var name = path.substr(ind + 1);
         var extension = name.substr(name.lastIndexOf(".") + 1);
 
-        this.http.post(this.baseUrl + 'api/FileUpload/DownloadFile', file, { responseType: 'blob' })
+        this.http.get(this.baseUrl + 'api/FileUpload/DownloadFile/' + encodeURI(file.FileName), { responseType: 'blob' })
                  .subscribe(x => {
                     console.log("file name: " + name);
                     console.log("extension: " + extension);
