@@ -16,7 +16,7 @@ namespace Planer.Models
             if (!context.Users.Any()) {
                 context.Users.AddRange (
                     new User {
-                        FirstName = "Test", LastName = "User", RootFolderLocation = "../../user1/", Email = "test@email.com", Password = "testpass"
+                        FirstName = "Test", LastName = "User", RootFolderLocation = "../../user1/", Email = "test@email.com", Password = "testpass", LinkFolderLocation = "../../user1_links/"
                     }
                 );
 

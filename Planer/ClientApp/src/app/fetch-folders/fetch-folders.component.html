@@ -1,43 +1,55 @@
-<h1>Folder contents</h1>
+<mat-card class="folders-card">
 
-<p *ngIf="!folderContents"><em>Loading...</em></p>
+  <mat-card-header>
+    <mat-card-title>Folder contents</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <p *ngIf="!folderContents"><em>Loading...</em></p>
 
-<button (click)="openFileUploadDialog(folderContents.path)" *ngIf="folderContents">File upload</button>
-<button (click)="openCreateFolderDialog(folderContents.path)" *ngIf="folderContents">Create new folder</button>
-<table class='table' *ngIf="folderContents">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Operations</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-        <!-- present_to_all
-        unarchive
-        subdirectory_arrow_left -->
-      <td><i (click)="goToPreviousFolder(folderContents.path)" class="material-icons">unarchive</i></td>
-      <td (click)="goToPreviousFolder(folderContents.path)" style="cursor: pointer;">...</td>
-      <td></td>
-    </tr>
-    <tr *ngFor="let folder of subfolders">
-      <td><i class="material-icons">folder</i></td>
-      <td (click)="getConentsOfFolder(folder)" style="cursor: pointer;">{{ folderContents.subfolders[folder] }}</td>
-      <td colspan="5" style="text-align: right;">
-        <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFolder(folder)"><i class="material-icons">delete</i></button>  
-      </td>
-    </tr>
-    <tr *ngFor="let file of files">
-      <td><i class="material-icons">library_books</i></td>
-      <td>{{ folderContents.files[file] }}</td>
-      <td>
-        <button mat-icon-button class="mat-icon-button mat-primary" (click)="downloadFile(file)" title="download"><i class="material-icons">get_app</i></button>
-        <button mat-icon-button class="mat-icon-button mat-primary" (click)="copyFile(file)" title="copy"><i class="material-icons">file_copy</i></button>
-        <button mat-icon-button class="mat-icon-button mat-primary" (click)="moveFile(file)" title="move"><i class="material-icons">exit_to_app</i></button>
-        <button mat-icon-button class="mat-icon-button mat-primary" (click)="renameFile(file)" title="rename"><i class="material-icons">create</i></button>
-        <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFile(file)" title="delete"><i class="material-icons">delete</i></button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <mat-card-actions>
+      <button (click)="openFileUploadDialog(folderContents.path)" *ngIf="folderContents" class="mat-raised-button mat-primary">File upload</button>
+      <button (click)="openCreateFolderDialog(folderContents.path)" *ngIf="folderContents" class="mat-raised-button mat-primary">Create new folder</button>
+    </mat-card-actions>
+    
+    <table class='table' *ngIf="folderContents">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <!-- present_to_all
+            unarchive
+            subdirectory_arrow_left -->
+          <td><i (click)="goToPreviousFolder(folderContents.path)" class="material-icons">unarchive</i></td>
+          <td (click)="goToPreviousFolder(folderContents.path)" style="cursor: pointer;">...</td>
+          <td></td>
+        </tr>
+        <tr *ngFor="let folder of subfolders">
+          <td><i class="material-icons">folder</i></td>
+          <td (click)="getConentsOfFolder(folder)" style="cursor: pointer;">{{ folderContents.subfolders[folder] }}</td>
+          <td colspan="5" style="text-align: right;">
+            <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFolder(folder)"><i class="material-icons">delete</i></button>  
+          </td>
+        </tr>
+        <tr *ngFor="let file of files">
+          <td><i class="material-icons">library_books</i></td>
+          <td>{{ folderContents.files[file] }}</td>
+          <td>
+            <button mat-icon-button class="mat-icon-button mat-primary" (click)="downloadFile(file)" title="download"><i class="material-icons">get_app</i></button>
+            <button mat-icon-button class="mat-icon-button mat-primary" (click)="copyFile(file)" title="copy"><i class="material-icons">file_copy</i></button>
+            <button mat-icon-button class="mat-icon-button mat-primary" (click)="moveFile(file)" title="move"><i class="material-icons">exit_to_app</i></button>
+            <button mat-icon-button class="mat-icon-button mat-primary" (click)="renameFile(file)" title="rename"><i class="material-icons">create</i></button>
+            <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFile(file)" title="delete"><i class="material-icons">delete</i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </mat-card-content>
+
+</mat-card>

@@ -51,8 +51,14 @@ namespace Planer.Controllers {
             Dictionary<string, object> res = new Dictionary<string, object>();
 
             User user = userRepository.Users.FirstOrDefault(u => u.UserID == linkViewModel.UserID);
-            Link link = new Link { User = user, Url = linkViewModel.Url, PathToFile = "test" };
+            string userLinkFolder = user.LinkFolderLocation;
+            Link link = new Link { User = user, Url = linkViewModel.Url, PathToFile = "" };
 
+            linkRepository.Save(link);
+
+            Console.Write(link.LinkID);
+            string pathToFile = userLinkFolder + link.LinkID + ".html";
+            link.PathToFile = pathToFile;
             linkRepository.Save(link);
 
             res.Add("result", true);

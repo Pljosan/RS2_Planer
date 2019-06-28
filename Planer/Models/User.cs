@@ -12,6 +12,8 @@ namespace Planer.Models {
 
         public string RootFolderLocation { get; set; }
 
+        public string LinkFolderLocation { get; set; }
+
         public string Email { get; set; }
 
         // U slucaju logovanja preko Facebook/Google ovde se cuva Facebook/Google ID
