@@ -2,8 +2,9 @@ import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { HttpClient } from '@angular/common/http';
 import { interval } from 'rxjs';
 import { AddLinkDialogComponent } from "../add-link-dialog/add-link-dialog.component"
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig, MatSliderChange } from "@angular/material";
 import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
+import { LinkChangesService } from '../link-changes.service';
 
 @Component({
   selector: 'app-link-monitor',
@@ -19,16 +20,27 @@ export class LinkMonitorComponent implements OnInit {
     public changesPerLink : Map<string, Array<string>>;
     private loggedUserId: number;
     private linkIdMap: Map<string, number>;
+    public changesExist: boolean;
+    value = 0;
 
 
-    constructor (private dialog: MatDialog, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private EncrDecr: EncrDecrService) { 
+    constructor (private dialog: MatDialog, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private EncrDecr: EncrDecrService, private linkChanges: LinkChangesService) { 
         this.baseUrl = baseUrl;
         this.additions = new Array<string>();
         this.changesPerLink = new Map<string, Array<string>>();
         this.notificationClicked = new Map<string, Boolean>();
         this.loggedUserId = parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')));
         this.linkIdMap = new Map<string, number>();
+        this.changesExist = false;
         
+    }
+
+    onInputChange(event) {
+        console.log("This is emitted as the thumb slides");
+        // console.log(event.value);
+
+        var encryptedValue = this.EncrDecr.set('123456$#@$^@1ERF', this.value);
+        sessionStorage.setItem("timer", encryptedValue);
     }
 
     objectKeys(map : Map<string, Array<string>>) {
@@ -40,16 +52,22 @@ export class LinkMonitorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.timer = interval(30*1000)
+        var seconds = 35;
+        if (sessionStorage.getItem("timer") !== null) {
+          seconds = parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('timer')));
+        }
+    
+        this.timer = interval(seconds*1000)
                     .subscribe(data => {
                         this.getChanges();
                     });
         this.getLinks();
+        this.getChanges();
     }
 
     ngOnDestroy() {
-        // console.log("timer stopped");
-        // this.timer.unsubscribe();
+        console.log("timer stopped");
+        this.timer.unsubscribe();
     }
 
     checkOffNotification(link : string) {
@@ -103,6 +121,7 @@ export class LinkMonitorComponent implements OnInit {
             Object.keys(changes).forEach(key => {
                 if (changes[key].length > 0) {
                     if (changes[key].length <= 5) {
+                        this.changesExist = true;
                         this.changesPerLink.set(key, changes[key]);
                         this.notificationClicked.set(key, false);
                     }

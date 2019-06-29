@@ -29,6 +29,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { EncrDecrService } from '../app/encr-decr/encr-decr-service.service';
 import { DayTasksDialogComponent } from './day-tasks-dialog/day-tasks-dialog.component';
 import { AuthGuardService } from './auth-guard.service';
+import { LinkChangesService } from './link-changes.service';
 
 const fbLoginOptions: LoginOpt = {
   scope: 'email',
@@ -101,7 +102,8 @@ export function provideConfig() {
       useFactory: provideConfig
     },
     EncrDecrService,
-    AuthGuardService
+    AuthGuardService,
+    LinkChangesService
   ],
   bootstrap: [AppComponent]
 })

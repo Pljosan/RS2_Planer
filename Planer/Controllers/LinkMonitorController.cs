@@ -37,11 +37,35 @@ namespace Planer.Controllers {
             Dictionary<string, object> res = new Dictionary<string, object>();
 
                 
-            var tasks = linkRepository.Links.Where(l => l.User.UserID == userId).Select(l => getUrlChanges(l));
+            var tasks = linkRepository.Links.Where(l => l.User.UserID == userId).Select(l => getUrlChanges(l, true));
             var results = await System.Threading.Tasks.Task.WhenAll(tasks);
 
             res.Add("result", true);
             res.Add("additions", changesPerUrl);
+
+            return Json(res);
+        }
+
+        [HttpGet("[action]/{userId}")]
+        public async Task<JsonResult> checkIfChangesExist(long userId) {
+
+            Dictionary<string, object> res = new Dictionary<string, object>();
+
+                
+            var tasks = linkRepository.Links.Where(l => l.User.UserID == userId).Select(l => getUrlChanges(l, false));
+            var results = await System.Threading.Tasks.Task.WhenAll(tasks);
+            var changesExist = false;
+
+            foreach(KeyValuePair<string, List<string>> entry in changesPerUrl)
+            {
+                if (entry.Value.Count != 0) {
+                    changesExist = true;
+                    break;
+                }
+            }
+
+            res.Add("result", true);
+            res.Add("changesExist", changesExist);
 
             return Json(res);
         }
@@ -101,7 +125,7 @@ namespace Planer.Controllers {
             return Json(result);
         }
 
-        private async Task<Boolean> getUrlChanges(Link link) {
+        private async Task<Boolean> getUrlChanges(Link link, Boolean enableOverwrite) {
             
 
             using (HttpClient client = new HttpClient()) {
@@ -125,11 +149,20 @@ namespace Planer.Controllers {
                             }
                         }
                     }
+                    else {
+                        using (Stream streamToWriteTo = System.IO.File.Open(link.PathToFile, FileMode.Create))
+                        {
+                            Stream webStream = await response.Content.ReadAsStreamAsync();
+                            await webStream.CopyToAsync(streamToWriteTo);
+                        }
+                    }
 
-                    using (Stream streamToWriteTo = System.IO.File.Open(link.PathToFile, FileMode.Create))
-                    {
-                        Stream webStream = await response.Content.ReadAsStreamAsync();
-                        await webStream.CopyToAsync(streamToWriteTo);
+                    if (enableOverwrite) {
+                        using (Stream streamToWriteTo = System.IO.File.Open(link.PathToFile, FileMode.Create))
+                        {
+                            Stream webStream = await response.Content.ReadAsStreamAsync();
+                            await webStream.CopyToAsync(streamToWriteTo);
+                        }
                     }
 
                     List<string> res = new List<string>();
