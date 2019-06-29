@@ -34,10 +34,10 @@ export class AddTaskDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      name: new FormControl('ttt'),
+      name: new FormControl(''),
       date: new FormControl(this.data.date.format('YYYY-MM-DD')),
       time: new FormControl(),
-      userId: new FormControl(parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id'))))
+      user: new FormControl(new User(parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')))))
     })
   }
 
@@ -55,4 +55,12 @@ export class AddTaskDialogComponent implements OnInit {
     // }, error => console.error(error));
   }
 
+}
+
+class User {
+  constructor (userID: number) {
+    this.userID = userID;
+  }
+
+  userID: number;
 }
