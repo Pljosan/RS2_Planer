@@ -23,16 +23,16 @@ namespace Planer.Models
                 context.SaveChanges();
             }
 
-            if (!context.Tasks.Any())
-            {
-                context.Tasks.AddRange(
-                    new Task
-                    {
-                        Name = "Task 1", Date = "12-12-12", Time = "10:43", UserId = 1
-                    }
-                );
-                context.SaveChanges();
-            }
+            // if (!context.Tasks.Any())
+            // {
+            //     context.Tasks.AddRange(
+            //         new Task
+            //         {
+            //             Name = "Task 1", Date = "12-12-12", Time = "10:43", UserId = 1
+            //         }
+            //     );
+            //     context.SaveChanges();
+            // }
         }
 
     }

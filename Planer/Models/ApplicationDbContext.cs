@@ -13,6 +13,7 @@ namespace Planer.Models {
         public DbSet<User> Users { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Link> Links { get; set; }
-    }
+        public DbSet<TaskFile> TaskFiles { get; set; }
+     }
 
 }

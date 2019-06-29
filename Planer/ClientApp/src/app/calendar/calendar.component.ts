@@ -32,14 +32,14 @@ export class CalendarComponent implements OnInit {
       name: 'Test',
       date: '12/11/2018',
       time: '10:10:10',
-      userId: 4,
+      user: new User(4),
       desc: 'tra la la al'
     },
     {
       name: 'Test2',
       date: '12/12/2018',
       time: '10:12:10',
-      userId: 4,
+      user: new User(4),
       desc: 'tra ld222 222 222a la al'
     },
   ];
@@ -167,3 +167,11 @@ export class CalendarComponent implements OnInit {
 
 }
 
+
+class User {
+  constructor (userID: number) {
+    this.userID = userID;
+  }
+
+  userID: number;
+}

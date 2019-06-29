@@ -18,7 +18,7 @@ namespace Planer.Controllers
         [HttpGet("[action]/{userId}")]
         public IEnumerable<Task> GetTasks(int userId)
         {
-            var tasks = repository.Tasks.Where(l => l.UserId == userId);
+            var tasks = repository.Tasks.Where(l => l.User.UserID == userId);
             return tasks;
         }
 

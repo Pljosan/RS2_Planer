@@ -15,8 +15,12 @@ namespace Planer.Models
         
         public void AddTask(Task task)
         {
-            this.repository.Set<Task>().Add(task);
-            this.repository.SaveChanges();
+            repository.Attach(task.User);
+
+            if (task.TaskID == 0)
+                repository.Tasks.Add(task);
+
+            repository.SaveChanges(); 
         }
     }
 
