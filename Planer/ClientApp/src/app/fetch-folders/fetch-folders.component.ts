@@ -5,6 +5,7 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { FolderCreateComponent } from '../folder-create/folder-create.component';
 import { RenameDialogComponent } from '../rename-dialog/rename-dialog.component';
 import { FolderListDialogComponent } from '../folder-list-dialog/folder-list-dialog.component';
+import { TaskListDialogComponent } from '../task-list-dialog/task-list-dialog.component';
 import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
 
 @Component({
@@ -20,11 +21,15 @@ export class FetchFoldersComponent implements OnInit {
     public files: Array<string>;
     public baseUrl: string;
     private loggedUserId: number;
-    
+    public checkedFilesExist: boolean;
+    public checkedFiles: Map<string, string>;
+
     constructor(private http: HttpClient, private dialog: MatDialog, @Inject('BASE_URL') baseUrl: string, private EncrDecr: EncrDecrService) { 
         this.baseUrl = baseUrl;
 
         this.foldersMap = new Map<string, Array<string>>();
+        this.checkedFiles = new Map<string, string>();
+        this.checkedFilesExist = false;
 
         var user: User;
         this.loggedUserId = parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')));
@@ -38,6 +43,57 @@ export class FetchFoldersComponent implements OnInit {
     
     ngOnInit() {
 
+    }
+
+    addFileToCheckedFiles(event: any, file: string) {
+        console.log("checked value: ");
+        console.log(event);
+
+        if (event.checked) {
+            this.checkedFiles.set(event.source.id, file);
+            this.checkedFilesExist = true;
+        } else {
+            this.checkedFiles.delete(event.source.id);
+            if (this.checkedFiles.size == 0) {
+                this.checkedFilesExist = false;
+            }
+        }
+    }
+
+    openAssignToTaskDialog() {
+        console.log(this.checkedFiles);
+
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        const dialogRef = this.dialog.open(TaskListDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(
+            data => {
+                if (!data) {
+                    console.log("closed");
+                    return;
+                }
+
+                // console.log("userid: "  + data["form"].UserID);
+                
+                // var formData = new FormData();
+                // if (data["form"].FileName) {
+                //     formData.append("FileName", data["form"].FileName);
+                // }
+                // if (data["form"].isUserInputName) {
+                //     formData.append("isUserInputName", data["form"].isUserInputName);
+                // } 
+                // else {
+                //     formData.append("isUserInputName", "false");
+                // }
+                // formData.append("UserID", this.loggedUserId.toString());
+                // formData.append("File", data["file"], data["file"].name);
+                // formData.append("DestFolder", path);
+
+                // this.submitFormData(formData);
+            });
     }
 
     setContentsAfterPost(result: Folder, back: boolean) {

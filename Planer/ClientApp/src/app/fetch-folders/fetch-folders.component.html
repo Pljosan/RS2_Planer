@@ -10,6 +10,7 @@
     <mat-card-actions>
       <button (click)="openFileUploadDialog(folderContents.path)" *ngIf="folderContents" class="mat-raised-button mat-primary">File upload</button>
       <button (click)="openCreateFolderDialog(folderContents.path)" *ngIf="folderContents" class="mat-raised-button mat-primary">Create new folder</button>
+      <button (click)="openAssignToTaskDialog()" *ngIf="folderContents" class="mat-raised-button mat-primary" [disabled]="!checkedFilesExist">Assign checked files to task</button>
     </mat-card-actions>
     
     <table class='table' *ngIf="folderContents">
@@ -18,6 +19,7 @@
           <th></th>
           <th>Name</th>
           <th>Operations</th>
+          <th>Assign to task?</th>
         </tr>
       </thead>
       <tbody>
@@ -45,6 +47,9 @@
             <button mat-icon-button class="mat-icon-button mat-primary" (click)="moveFile(file)" title="move"><i class="material-icons">exit_to_app</i></button>
             <button mat-icon-button class="mat-icon-button mat-primary" (click)="renameFile(file)" title="rename"><i class="material-icons">create</i></button>
             <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFile(file)" title="delete"><i class="material-icons">delete</i></button>
+          </td>
+          <td style="text-align: right;">
+            <mat-checkbox labelPosition="after" color="primary" (change)="addFileToCheckedFiles($event, file)"></mat-checkbox>
           </td>
         </tr>
       </tbody>

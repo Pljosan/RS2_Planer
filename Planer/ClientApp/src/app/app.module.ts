@@ -30,6 +30,7 @@ import { EncrDecrService } from '../app/encr-decr/encr-decr-service.service';
 import { DayTasksDialogComponent } from './day-tasks-dialog/day-tasks-dialog.component';
 import { AuthGuardService } from './auth-guard.service';
 import { LinkChangesService } from './link-changes.service';
+import { TaskListDialogComponent } from './task-list-dialog/task-list-dialog.component';
 
 const fbLoginOptions: LoginOpt = {
   scope: 'email',
@@ -71,7 +72,8 @@ export function provideConfig() {
     AddLinkDialogComponent,
     RegistrationComponent,
     // LoginRegistration
-    DayTasksDialogComponent
+    DayTasksDialogComponent,
+    TaskListDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -94,7 +96,8 @@ export function provideConfig() {
     RenameDialogComponent,
     FolderListDialogComponent,
     AddLinkDialogComponent,
-    DayTasksDialogComponent
+    DayTasksDialogComponent,
+    TaskListDialogComponent
   ],
   providers: [
     {
