@@ -21,6 +21,7 @@ namespace Planer.Models {
 
         // GOOGLE, FACEBOOK, null        
         public string Provider {get; set; }
+
     }
 
 }

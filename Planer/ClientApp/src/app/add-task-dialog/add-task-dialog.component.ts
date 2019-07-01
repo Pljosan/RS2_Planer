@@ -4,6 +4,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {HttpClient} from "@angular/common/http";
 import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
+import { formArrayNameProvider } from '@angular/forms/src/directives/reactive_directives/form_group_name';
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -37,7 +38,8 @@ export class AddTaskDialogComponent implements OnInit {
       name: new FormControl(''),
       date: new FormControl(this.data.date.format('YYYY-MM-DD')),
       time: new FormControl(),
-      user: new FormControl(new User(parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id')))))
+      user: new FormControl(new User(parseInt(this.EncrDecr.get('123456$#@$^@1ERF', sessionStorage.getItem('id'))))),
+      isPublic: new FormControl()
     })
   }
 
@@ -46,8 +48,15 @@ export class AddTaskDialogComponent implements OnInit {
     // this.dialogRef.close('submit');
     this.http.post(this.baseUrl + 'api/Task/AddTask', this.form.value).subscribe(res => {
       console.log(res);
+    })
+
+
+    this.http.post(this.baseUrl + 'api/UserTask/AddUserTask', this.form.value).subscribe(res => {
+      console.log(res);
       this.dialogRef.close('submitted');
     })
+
+
     // this.http.get<Task[]>(baseUrl + 'api/Task/GetTasks').subscribe(result => {
     //   this.tasks = result;
     //   console.log(this.tasks);

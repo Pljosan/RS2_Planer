@@ -14,6 +14,10 @@
       <input matInput type="text" placeholder="time" formControlName="time">
     </mat-form-field>
 
+    <mat-checkbox [checked]= "myModel" class = "example-margin" > 
+      <label>Public task </label> 
+    </mat-checkbox>
+
     <button  mat-raised-button (click)="submitTask()">Add new task</button>
   </form>
 </div>
