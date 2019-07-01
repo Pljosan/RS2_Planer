@@ -1,7 +1,7 @@
-<mat-dialog-content [formGroup]="form"> 
-    <mat-form-field>
-        <label>Test</label>
-    </mat-form-field>      
+<mat-dialog-content>
+    <div *ngFor="let task of tasks">
+        <mat-checkbox labelPosition="after" color="primary" (change)="addTaskToListOfTasks($event, task)">{{task.name}}</mat-checkbox>            
+    </div> 
 </mat-dialog-content>
 
 <mat-dialog-actions>

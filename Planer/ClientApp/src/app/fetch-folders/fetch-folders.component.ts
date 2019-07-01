@@ -76,6 +76,8 @@ export class FetchFoldersComponent implements OnInit {
                     return;
                 }
 
+                console.log("received data:");
+                console.log(data);
                 // console.log("userid: "  + data["form"].UserID);
                 
                 // var formData = new FormData();
