@@ -10,6 +10,9 @@ import {AddTaskDialogComponent} from "../add-task-dialog/add-task-dialog.compone
 })
 export class DayTasksDialogComponent implements OnInit {
   tasks;
+  taskFiles;
+  numOfTaskRows;
+  numOfFileRows;
 
   constructor(
     private dialogRef: MatDialogRef<AddTaskDialogComponent>,
@@ -26,7 +29,10 @@ export class DayTasksDialogComponent implements OnInit {
       }
 
       return 0;
-    })
+    });
+    this.numOfTaskRows = this.tasks.length;
+    this.taskFiles = this.data.files;
+    this.numOfFileRows = this.taskFiles.length;
   }
 
   ngOnInit() {

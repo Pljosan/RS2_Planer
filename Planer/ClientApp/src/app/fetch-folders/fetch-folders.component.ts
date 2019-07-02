@@ -23,8 +23,6 @@ export class FetchFoldersComponent implements OnInit {
     private loggedUserId: number;
     public checkedFilesExist: boolean;
     public checkedFiles: Map<string, string>;
-    
-    // TODO: TREBA DODATI PROVERU DA LI JE FAJL DODAT VEC TASKU - ILI PRIJAVITI GRESKU, ILI GA SAMO NE DODATI...
 
     constructor(private http: HttpClient, private dialog: MatDialog, @Inject('BASE_URL') baseUrl: string, private EncrDecr: EncrDecrService) { 
         this.baseUrl = baseUrl;

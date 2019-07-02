@@ -30,6 +30,7 @@
           <td><i (click)="goToPreviousFolder(folderContents.path)" class="material-icons">unarchive</i></td>
           <td (click)="goToPreviousFolder(folderContents.path)" style="cursor: pointer;">...</td>
           <td></td>
+          <td></td>
         </tr>
         <tr *ngFor="let folder of subfolders">
           <td><i class="material-icons">folder</i></td>
@@ -49,7 +50,7 @@
             <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFile(file)" title="delete"><i class="material-icons">delete</i></button>
           </td>
           <td style="text-align: right;">
-            <mat-checkbox class="checkBox" labelPosition="after" color="primary" (change)="addFileToCheckedFiles($event, file)"></mat-checkbox>
+            <mat-checkbox labelPosition="after" color="primary" (change)="addFileToCheckedFiles($event, file)"></mat-checkbox>
           </td>
         </tr>
       </tbody>

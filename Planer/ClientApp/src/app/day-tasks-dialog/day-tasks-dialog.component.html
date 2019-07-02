@@ -1,9 +1,19 @@
-<div>
-  <div class="title">{{dateFormat()}}</div>
-  <div class="task-data" *ngFor="let task of tasks">
-    <div>{{task.name}}</div>
-    <div>{{task.time}}</div>
-  </div>
-
+<mat-grid-list cols="4" rowHeight="2:1" style="width: 400px;">
+  <mat-grid-tile-header>
+      <div class="title">{{dateFormat()}}</div>
+  </mat-grid-tile-header>
+  <mat-grid-tile [colspan]="2" [rowspan]="numOfTaskRows > numOfFileRows ? numOfTaskRows : numOfFileRows" *ngFor="let task of tasks">
+      <div class="task-data">
+          <div>{{task.name}}</div>
+          <div>{{task.time}}</div>
+      </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="2" [rowspan]="numOfTaskRows > numOfFileRows ? numOfTaskRows : numOfFileRows" *ngFor="let file of taskFiles">      
+    <div class="task-data">
+      <div>{{file}}</div><br>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-grid-tile-footer>
   <button class="add-button" mat-button mat-raised-button (click)="addNewTaskDialogOpen()">Add new task</button>
-</div>
+</mat-grid-tile-footer>

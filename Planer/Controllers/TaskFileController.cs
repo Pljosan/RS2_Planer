@@ -23,23 +23,20 @@ namespace Planer.Controllers {
         [HttpPost("[action]")]
         public JsonResult addFileToTask([FromBody] TaskFileViewModel taskFile) {
             Dictionary<string, object> result = new Dictionary<string, object>();
+            var taskFilesList = repository.TaskFiles;
 
             Console.WriteLine("DOBILI SMO");
             Console.WriteLine(taskFile.Files);
             Console.WriteLine(taskFile.Tasks);
 
-            
-
-            foreach (var file in taskFile.Files)
-            {
-                Console.WriteLine(file);
-            }
             foreach (var task in taskFile.Tasks)
             {
                 foreach (var file in taskFile.Files)
                 {
-                    TaskFile tf = new TaskFile { Task = task, FilePath = file };
-                    repository.Save(tf);
+                    if (taskFilesList.Where(t => t.Task.TaskID == task.TaskID && t.FilePath == file).Count() == 0) {
+                        TaskFile tf = new TaskFile { Task = task, FilePath = file };
+                        repository.Save(tf);
+                    }
                 }
             }
 
@@ -55,7 +52,14 @@ namespace Planer.Controllers {
 
             result.Add("result", true);
             result.Add("files", files);
-            return Json(result);
+            return Json(files.ToArray());
+        }
+
+        [HttpGet("[action]/{userId}")]
+        public IEnumerable<TaskFile> getTaskFilesForUser(long userId) {
+
+            var files = repository.TaskFiles.Where(t => t.Task.User.UserID == userId);
+            return files.ToArray();
         }
     }
 }

@@ -16,6 +16,7 @@ import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
 export class CalendarComponent implements OnInit {
 
   tasks;
+  taskFiles: TaskFile[];
   date;
   currYear;
   currMonth;
@@ -23,6 +24,7 @@ export class CalendarComponent implements OnInit {
   freeDays;
   freeDaysAfter;
   daysData = [];
+  daysFiles = [];
   calendarTittle;
   loggedUserId;
 
@@ -54,9 +56,14 @@ export class CalendarComponent implements OnInit {
     http.get<Task[]>(baseUrl + 'api/Task/GetTasks/' + this.loggedUserId).subscribe(result => {
       this.tasks = result;
       console.log(this.tasks);
-      this.fillDaysData();
+      // this.fillDaysData();
     }, error => console.error(error));
 
+    http.get<TaskFile[]>(baseUrl + 'api/TaskFile/getTaskFilesForUser/' + this.loggedUserId).subscribe(result => {
+      this.taskFiles = result;
+      console.log(this.taskFiles);
+      this.fillDaysData();
+    }, error => console.error(error));
   }
 
   ngOnInit() {
@@ -89,8 +96,9 @@ export class CalendarComponent implements OnInit {
     } else {
       console.log('edit');
       const tasks = this.daysData[dayNo];
+      const files = this.daysFiles[dayNo];
       const dialogRef = this.dialog.open(DayTasksDialogComponent, {
-        data: {tasks}
+        data: {tasks, files}
       });
 
       dialogRef.afterClosed().subscribe(res => {
@@ -117,8 +125,10 @@ export class CalendarComponent implements OnInit {
     this.daysData.length = 0;
     for (let i = 0; i <= moment(this.date).daysInMonth(); i++) {
       this.daysData[i] = this.getDayTasks(i);
+      this.daysFiles[i] = this.getDayFiles(i);
     }
-
+    console.log("DAYS FILES");
+    console.log(this.daysFiles);
     this.cd.detectChanges();
   }
 
@@ -134,6 +144,20 @@ export class CalendarComponent implements OnInit {
     }
 
     return dayTasks;
+  }
+
+  getDayFiles(dayNo) {
+    const dayFiles = [];
+    const myDate = moment({y: this.currYear, M: this.currMonth - 1, d: dayNo});
+    if (this.taskFiles) {
+      for (let i = 0; i < this.taskFiles.length; i++) {
+        if (myDate.isSame(moment(this.taskFiles[i].task.date))) {
+          dayFiles.push(this.taskFiles[i].filePath);
+        }
+      }
+    }
+
+    return dayFiles;
   }
 
   isToday(index): boolean {
@@ -174,4 +198,14 @@ class User {
   }
 
   userID: number;
+}
+
+class TaskFile {
+  constructor(task, filePath) {
+      this.task = task;
+      this.filePath = filePath;
+  }
+
+  task: Task;
+  filePath: string;
 }
