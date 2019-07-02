@@ -22,7 +22,12 @@ export class TaskListDialogComponent implements OnInit {
     }
 
     save() {
-        this.dialogRef.close({"task_list": this.listOfTasks});
+        var tasksToAddTo = new Array<Task>();
+        this.listOfTasks.forEach((value: Task, key: number) => {
+            tasksToAddTo.push(value);
+        });
+
+        this.dialogRef.close({"task_list": tasksToAddTo});
     }
 
     close() {
@@ -32,6 +37,8 @@ export class TaskListDialogComponent implements OnInit {
     ngOnInit() {
         this.http.get<Task[]>(this.baseUrl + 'api/Task/GetTasks/' + this.loggedUserId).subscribe(result => {
             this.tasks = result;
+            console.log("result:");
+            console.log(result);
           }, error => console.error(error));
     }
 
@@ -55,3 +62,11 @@ class Task {
     date: string;
     time: string;
 }
+
+class User {
+    constructor (userID: number) {
+      this.userID = userID;
+    }
+  
+    userID: number;
+  }

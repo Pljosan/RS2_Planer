@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Planer.Models
 {
@@ -11,7 +12,7 @@ namespace Planer.Models
         }
 
         public IQueryable<Task> Tasks => 
-            repository.Tasks;
+            repository.Tasks.Include(t => t.User);
         
         public void AddTask(Task task)
         {

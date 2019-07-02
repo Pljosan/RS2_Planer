@@ -18,11 +18,13 @@ namespace Planer.Models
 
         public void Save (TaskFile taskFile)
         {
-            IEnumerable<object> attachments = new List<object>();
-            attachments.Append(taskFile.Task);
-            attachments.Append(taskFile.User);
+            // IEnumerable<object> attachments = new List<object>();
+            // attachments.Append(taskFile.Task);
+            // attachments.Append(taskFile.User);
 
-            repository.AttachRange(attachments);
+            // repository.AttachRange(attachments);
+            repository.Attach(taskFile.Task);
+            repository.Attach(taskFile.Task.User);
 
             if (taskFile.TaskFileID == 0)
                 repository.TaskFiles.Add(taskFile);

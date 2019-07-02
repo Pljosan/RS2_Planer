@@ -3,27 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Planer.Migrations
 {
-    public partial class NewUpdate : Migration
+    public partial class TaskFileUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Tasks",
-                columns: table => new
-                {
-                    TaskID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Date = table.Column<string>(nullable: true),
-                    Time = table.Column<string>(nullable: true),
-                    GroupID = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => x.TaskID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -64,9 +47,62 @@ namespace Planer.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    TaskID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<int>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Date = table.Column<string>(nullable: true),
+                    Time = table.Column<string>(nullable: true),
+                    GroupID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.TaskID);
+                    table.ForeignKey(
+                        name: "FK_Tasks_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaskFiles",
+                columns: table => new
+                {
+                    TaskFileID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TaskID = table.Column<int>(nullable: true),
+                    FilePath = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskFiles", x => x.TaskFileID);
+                    table.ForeignKey(
+                        name: "FK_TaskFiles_Tasks_TaskID",
+                        column: x => x.TaskID,
+                        principalTable: "Tasks",
+                        principalColumn: "TaskID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Links_UserID",
                 table: "Links",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskFiles_TaskID",
+                table: "TaskFiles",
+                column: "TaskID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_UserID",
+                table: "Tasks",
                 column: "UserID");
         }
 
@@ -74,6 +110,9 @@ namespace Planer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Links");
+
+            migrationBuilder.DropTable(
+                name: "TaskFiles");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

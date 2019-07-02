@@ -49,7 +49,7 @@
             <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFile(file)" title="delete"><i class="material-icons">delete</i></button>
           </td>
           <td style="text-align: right;">
-            <mat-checkbox labelPosition="after" color="primary" (change)="addFileToCheckedFiles($event, file)"></mat-checkbox>
+            <mat-checkbox class="checkBox" labelPosition="after" color="primary" (change)="addFileToCheckedFiles($event, file)"></mat-checkbox>
           </td>
         </tr>
       </tbody>

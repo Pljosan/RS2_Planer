@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material";
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { FolderCreateComponent } from '../folder-create/folder-create.component';
 import { RenameDialogComponent } from '../rename-dialog/rename-dialog.component';
@@ -23,6 +23,8 @@ export class FetchFoldersComponent implements OnInit {
     private loggedUserId: number;
     public checkedFilesExist: boolean;
     public checkedFiles: Map<string, string>;
+    
+    // TODO: TREBA DODATI PROVERU DA LI JE FAJL DODAT VEC TASKU - ILI PRIJAVITI GRESKU, ILI GA SAMO NE DODATI...
 
     constructor(private http: HttpClient, private dialog: MatDialog, @Inject('BASE_URL') baseUrl: string, private EncrDecr: EncrDecrService) { 
         this.baseUrl = baseUrl;
@@ -76,25 +78,20 @@ export class FetchFoldersComponent implements OnInit {
                     return;
                 }
 
+                var files = new Array<string>();
+                this.checkedFiles.forEach((value: string, key: string) => {
+                    files.push(value);
+                });
+
                 console.log("received data:");
                 console.log(data);
-                // console.log("userid: "  + data["form"].UserID);
-                
-                // var formData = new FormData();
-                // if (data["form"].FileName) {
-                //     formData.append("FileName", data["form"].FileName);
-                // }
-                // if (data["form"].isUserInputName) {
-                //     formData.append("isUserInputName", data["form"].isUserInputName);
-                // } 
-                // else {
-                //     formData.append("isUserInputName", "false");
-                // }
-                // formData.append("UserID", this.loggedUserId.toString());
-                // formData.append("File", data["file"], data["file"].name);
-                // formData.append("DestFolder", path);
 
-                // this.submitFormData(formData);
+                var sendData = new TaskFileViewModel(data['task_list'], files);
+                this.http.post<TaskFileViewModel>(this.baseUrl + 'api/TaskFile/addFileToTask', sendData).subscribe(status => {
+                    console.log(status);
+
+                }, error => console.error(error));
+                
             });
     }
 
@@ -109,6 +106,9 @@ export class FetchFoldersComponent implements OnInit {
         if (!back) {
             this.foldersMap.set(this.folderContents.path, this.subfolders);       
         }
+    }
+
+    uncheckChecked() {
     }
 
     getConentsOfFolder(path: string) {
@@ -576,4 +576,22 @@ class FileUpload {
     FileName: string;
     FileObj: File;
     isUserInputName: boolean;
+}
+
+class TaskFileViewModel {
+    constructor(tasks, files) {
+        this.tasks = tasks;
+        this.files = files;
+    }
+
+    tasks: Array<Task>;
+    files: Array<string>;
+}
+
+class Task {
+    id: string;
+    user: User;
+    name: string;
+    date: string;
+    time: string;
 }

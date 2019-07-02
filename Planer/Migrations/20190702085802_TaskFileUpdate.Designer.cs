@@ -10,8 +10,8 @@ using Planer.Models;
 namespace Planer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190629110905_TaskFileNew")]
-    partial class TaskFileNew
+    [Migration("20190702085802_TaskFileUpdate")]
+    partial class TaskFileUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,13 +73,9 @@ namespace Planer.Migrations
 
                     b.Property<int?>("TaskID");
 
-                    b.Property<int?>("UserID");
-
                     b.HasKey("TaskFileID");
 
                     b.HasIndex("TaskID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("TaskFiles");
                 });
@@ -128,10 +124,6 @@ namespace Planer.Migrations
                     b.HasOne("Planer.Models.Task", "Task")
                         .WithMany()
                         .HasForeignKey("TaskID");
-
-                    b.HasOne("Planer.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618
         }
