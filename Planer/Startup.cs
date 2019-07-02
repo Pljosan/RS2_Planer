@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
+using Planer.Scheduled;
 using Planer.Models;
 
 namespace Planer
@@ -40,6 +41,8 @@ namespace Planer
             services.AddTransient<ILinkRepository, LinkRepository>();
             services.AddTransient<ITaskFileRepository, TaskFileRepository>();
             
+            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, ScheduleTask>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

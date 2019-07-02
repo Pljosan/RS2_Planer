@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Planer.Models;
 using System.Linq;
-
 namespace Planer.Controllers
 {   
     [Route("api/[controller]")]
@@ -28,5 +27,8 @@ namespace Planer.Controllers
             repository.AddTask(task);
         }
 
+        public void CheckTaskExpiration() {
+
+        }
     }
 }
