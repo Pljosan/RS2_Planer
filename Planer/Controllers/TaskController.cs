@@ -24,9 +24,12 @@ namespace Planer.Controllers
         }
 
         [HttpPost("[action]")]
-        public void AddTask([FromBody] Task task)
+        public Task AddTask([FromBody] Task task)
         {
-            repository.AddTask(task);
+            task.Notified = false;
+            var res = repository.AddTask(task);
+
+            return res;
         }
 
         [HttpGet("[action]/{userId}")]

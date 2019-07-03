@@ -8,7 +8,7 @@ namespace Planer.Models
     {
         IQueryable<Task> Tasks { get; }
 
-        void AddTask(Task task);
+        Task AddTask(Task task);
 
     }
 }

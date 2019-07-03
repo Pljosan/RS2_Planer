@@ -14,14 +14,16 @@ namespace Planer.Models
         public IQueryable<Task> Tasks => 
             repository.Tasks.Include(t => t.User);
         
-        public void AddTask(Task task)
+        public Task AddTask(Task task)
         {
             repository.Attach(task.User);
 
             if (task.TaskID == 0)
                 repository.Tasks.Add(task);
 
-            repository.SaveChanges(); 
+            repository.SaveChanges();
+
+            return task; 
         }
     }
 
