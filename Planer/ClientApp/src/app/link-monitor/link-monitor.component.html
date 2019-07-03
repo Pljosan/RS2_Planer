@@ -50,12 +50,6 @@
                     <a href="{{link}}" stlyle="min-width:3em; max-width:3em;" class="mat-button mat-primary" *ngIf="isClicked(link) == true">{{link}}</a>
                 </td>
                 <td><i (click)="checkOffNotification(link)" class="material-icons" title="dismiss" *ngIf="isClicked(link) == false">notification_important</i></td>
-                <td colspan="2" style="text-align: right;">
-                    <input matInput type="number" placeholder="Value" [(ngModel)]="value" (change)="onInputChange($event)"> 
-                </td>
-                <td>
-                    <mat-slider min="1" max="3600" step="1" [(ngModel)]="value" (input)="onInputChange($event)"></mat-slider> 
-                </td>
                 <td>
                     <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteLink(link)" title="delete"><i class="material-icons">delete</i></button>
                 </td>

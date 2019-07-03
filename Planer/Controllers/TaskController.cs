@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Planer.Models;
 using System.Linq;
+using System;
+
 namespace Planer.Controllers
 {   
     [Route("api/[controller]")]
@@ -27,8 +29,15 @@ namespace Planer.Controllers
             repository.AddTask(task);
         }
 
-        public void CheckTaskExpiration() {
+        [HttpGet("[action]/{userId}")]
+        public IEnumerable<Task> GetUpcomingTasks(int userId) {
+            var today = DateTime.Now;
 
+            var tasks = repository.Tasks.Where(t => t.User.UserID == userId && 
+                                                    (DateTime.Parse(t.Date + " " + t.Time)).Subtract(today).Days <= 7 && 
+                                                    (DateTime.Parse(t.Date + " " + t.Time)).Subtract(today).Days >= 0);
+            
+            return tasks;
         }
     }
 }
