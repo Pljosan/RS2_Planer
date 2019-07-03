@@ -15,9 +15,13 @@ namespace Planer.Controllers {
     public class FileUploadController : Controller {
 
         private IUserRepository repository;
+        private ITaskRepository taskRepository;
+        private ITaskFileRepository taskFileRepository;
 
-        public FileUploadController(IUserRepository repository) {
+        public FileUploadController(IUserRepository repository, ITaskRepository taskRepository, ITaskFileRepository taskFileRepository) {
             this.repository = repository;
+            this.taskRepository = taskRepository;
+            this.taskFileRepository = taskFileRepository;
         }    
 
         [HttpPost("[action]")]
@@ -28,15 +32,18 @@ namespace Planer.Controllers {
             Console.WriteLine("file2: " + file.UserID);
             Console.WriteLine("file3: " + file.isUserInputName);
             Console.WriteLine("file4: " + file.DestFolder);
+            Console.WriteLine("file4: " + file.TaskID);
             
             Dictionary<string, object> result = new Dictionary<string, object>();
             if (ModelState.IsValid) {
                     User user = repository.Users.Where(p => p.UserID == file.UserID).FirstOrDefault();
 
                     string folderPath = "";
-                    if (file.DestFolder == null || file.DestFolder.Length == 0) {
+                    if (String.IsNullOrEmpty(file.DestFolder)) {
+                        Console.WriteLine("hi im here");
                         folderPath = user.RootFolderLocation;
                     } else {
+                        Console.WriteLine("hi im here :(");
                         folderPath = file.DestFolder;
                     }
 
@@ -45,18 +52,30 @@ namespace Planer.Controllers {
                     }
                     
                     if (!Directory.Exists(folderPath)) {
-                            Directory.CreateDirectory(folderPath);
+                        Directory.CreateDirectory(folderPath);
                     }
 
+                    Console.WriteLine("folder " + folderPath);
                     string fileName = file.isUserInputName ? file.FileName : Path.GetFileNameWithoutExtension(file.File.FileName);
                     
                     string filePath = folderPath + fileName + Path.GetExtension(file.File.FileName);
+
+                    Console.WriteLine("file " + filePath);
 
                     if (!System.IO.File.Exists(filePath)) {
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {
                             file.File.CopyTo(fileStream);
                         }
+
+                        Console.WriteLine("ovde");
+
+                        if (file.TaskID != null) {
+                            Task task = this.taskRepository.Tasks.FirstOrDefault(t => t.TaskID == file.TaskID);
+                            TaskFile taskFile = new TaskFile { Task = task, FilePath = filePath };
+                            this.taskFileRepository.Save(taskFile);
+                        }
+
                         result.Add("result", true);
 
                         return Json(result);

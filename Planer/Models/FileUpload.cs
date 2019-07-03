@@ -19,5 +19,7 @@ namespace Planer.Models {
         public string DestFolder { get; set; }
 
         public string Path { get; set; }
+
+        public int? TaskID { get; set; }
     }
 }
