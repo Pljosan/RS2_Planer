@@ -16,3 +16,27 @@
   display: flex;
   flex-direction: column;
 }
+.list {
+  min-height: 300px;
+  width: 200px;
+  .task-wrapper {
+    flex-direction: column;
+
+    .going {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .user-title {
+      margin-top: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      .user-data {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+}
