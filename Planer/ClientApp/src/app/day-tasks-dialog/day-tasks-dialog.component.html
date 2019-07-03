@@ -1,19 +1,29 @@
-<mat-grid-list cols="4" rowHeight="2:1" style="width: 400px;">
-  <mat-grid-tile-header>
-      <div class="title">{{dateFormat()}}</div>
-  </mat-grid-tile-header>
-  <mat-grid-tile [colspan]="2" [rowspan]="numOfTaskRows > numOfFileRows ? numOfTaskRows : numOfFileRows" *ngFor="let task of tasks">
-      <div class="task-data">
-          <div>{{task.name}}</div>
-          <div>{{task.time}}</div>
-      </div>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="2" [rowspan]="numOfTaskRows > numOfFileRows ? numOfTaskRows : numOfFileRows" *ngFor="let file of taskFiles">      
-    <div class="task-data">
-      <div>{{file}}</div><br>
+<mat-list>
+  <h3 mat-subheader class="title">{{dateFormat()}}</h3>
+  <mat-list-item *ngFor="let task of tasks">
+    <h4 mat-line>{{task.name}}</h4>
+    <p mat-line> {{task.time}} </p>
+
+    <div class="wrapper">
+      <mat-list-item *ngIf="task.public">
+        <div>
+          <mat-checkbox [(ngModel)]="going">Going</mat-checkbox>
+          <button class="add-button" mat-button mat-raised-button (click)="registerInterest(task)">Save</button>
+        </div>
+      </mat-list-item>
+      <mat-list-item *ngFor="let taskUser of taskUsers[task.taskID]">
+        <h4 mat-line>{{taskUser.user.firstName}}</h4>
+      </mat-list-item>    
     </div>
-  </mat-grid-tile>
-</mat-grid-list>
-<mat-grid-tile-footer>
-  <button class="add-button" mat-button mat-raised-button (click)="addNewTaskDialogOpen()">Add new task</button>
-</mat-grid-tile-footer>
+  
+  </mat-list-item>
+  
+  <h3 mat-subheader class="title">Files for the day</h3>
+  <mat-list-item *ngFor="let file of taskFiles">
+    <mat-icon mat-list-icon>library_books</mat-icon>
+    <h4 mat-line>{{file}}</h4>
+    <p mat-line> <button class="mat-icon-button mat-primary" mat-icon-button (click)="downloadFile(file)"><i class="material-icons">get_app</i></button> </p>
+  </mat-list-item>    
+  <mat-divider></mat-divider>
+  <h3 mat-subheader><button class="add-button" mat-button mat-raised-button (click)="addNewTaskDialogOpen()">Add new task</button></h3>
+</mat-list>

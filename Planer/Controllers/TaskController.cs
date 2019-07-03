@@ -19,7 +19,7 @@ namespace Planer.Controllers
         [HttpGet("[action]/{userId}")]
         public IEnumerable<Task> GetTasks(int userId)
         {
-            var tasks = repository.Tasks.Where(l => l.User.UserID == userId);
+            var tasks = repository.Tasks.Where(l => l.User.UserID == userId || l.Public);
             return tasks;
         }
 
@@ -36,7 +36,7 @@ namespace Planer.Controllers
         public IEnumerable<Task> GetUpcomingTasks(int userId) {
             var today = DateTime.Now;
 
-            var tasks = repository.Tasks.Where(t => t.User.UserID == userId && 
+            var tasks = repository.Tasks.Where(t => (t.User.UserID == userId || t.Public) &&  
                                                     (DateTime.Parse(t.Date + " " + t.Time)).Subtract(today).Days <= 7 && 
                                                     (DateTime.Parse(t.Date + " " + t.Time)).Subtract(today).Days >= 0);
             

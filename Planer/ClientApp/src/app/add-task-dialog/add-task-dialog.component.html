@@ -14,6 +14,8 @@
       <input matInput type="text" placeholder="time" formControlName="time">
     </mat-form-field>
 
+    <mat-checkbox formControlName="public">Is public</mat-checkbox>
+
     <button  mat-raised-button color="accent" (click)="openFileUploadDialog()">Add file</button>
     <button  mat-raised-button color="primary" (click)="submitTask()">Add new task</button>
   </form>

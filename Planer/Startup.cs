@@ -40,8 +40,9 @@ namespace Planer
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<ILinkRepository, LinkRepository>();
             services.AddTransient<ITaskFileRepository, TaskFileRepository>();
-            
-            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, ScheduleTask>();
+            services.AddTransient<IUserTaskRepository, UserTaskRepository>();
+
+            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, ScheduledTask>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // In production, the Angular files will be served from this directory

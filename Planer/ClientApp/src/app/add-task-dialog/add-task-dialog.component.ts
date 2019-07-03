@@ -46,7 +46,8 @@ export class AddTaskDialogComponent implements OnInit {
       name: new FormControl(''),
       date: new FormControl(this.data.date.format('YYYY-MM-DD')),
       time: new FormControl(),
-      user: new FormControl(new User(this.loggedUserId))
+      user: new FormControl(new User(this.loggedUserId)),
+      public: new FormControl()
     })
   }
 
