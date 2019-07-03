@@ -35,7 +35,7 @@
         <tr *ngFor="let folder of subfolders">
           <td><i class="material-icons">folder</i></td>
           <td (click)="getConentsOfFolder(folder)" style="cursor: pointer;">{{ folderContents.subfolders[folder] }}</td>
-          <td colspan="5" style="text-align: right;">
+          <td style="text-align: right;">
             <button mat-icon-button class="mat-icon-button mat-warn" (click)="deleteFolder(folder)"><i class="material-icons">delete</i></button>  
           </td>
         </tr>
