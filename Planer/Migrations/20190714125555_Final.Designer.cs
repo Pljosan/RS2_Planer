@@ -10,8 +10,8 @@ using Planer.Models;
 namespace Planer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190702085802_TaskFileUpdate")]
-    partial class TaskFileUpdate
+    [Migration("20190714125555_Final")]
+    partial class Final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,10 @@ namespace Planer.Migrations
                     b.Property<string>("GroupID");
 
                     b.Property<string>("Name");
+
+                    b.Property<bool>("Notified");
+
+                    b.Property<bool>("Public");
 
                     b.Property<string>("Time");
 
@@ -105,6 +109,25 @@ namespace Planer.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Planer.Models.UserTask", b =>
+                {
+                    b.Property<int>("UserTaskID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("TaskID");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("UserTaskID");
+
+                    b.HasIndex("TaskID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserTasks");
+                });
+
             modelBuilder.Entity("Planer.Models.Link", b =>
                 {
                     b.HasOne("Planer.Models.User", "User")
@@ -124,6 +147,17 @@ namespace Planer.Migrations
                     b.HasOne("Planer.Models.Task", "Task")
                         .WithMany()
                         .HasForeignKey("TaskID");
+                });
+
+            modelBuilder.Entity("Planer.Models.UserTask", b =>
+                {
+                    b.HasOne("Planer.Models.Task", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskID");
+
+                    b.HasOne("Planer.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Planer.Migrations
 {
-    public partial class TaskFileUpdate : Migration
+    public partial class Final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,7 +57,9 @@ namespace Planer.Migrations
                     Name = table.Column<string>(nullable: true),
                     Date = table.Column<string>(nullable: true),
                     Time = table.Column<string>(nullable: true),
-                    GroupID = table.Column<string>(nullable: true)
+                    GroupID = table.Column<string>(nullable: true),
+                    Notified = table.Column<bool>(nullable: false),
+                    Public = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,6 +92,32 @@ namespace Planer.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserTasks",
+                columns: table => new
+                {
+                    UserTaskID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TaskID = table.Column<int>(nullable: true),
+                    UserID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTasks", x => x.UserTaskID);
+                    table.ForeignKey(
+                        name: "FK_UserTasks_Tasks_TaskID",
+                        column: x => x.TaskID,
+                        principalTable: "Tasks",
+                        principalColumn: "TaskID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserTasks_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Links_UserID",
                 table: "Links",
@@ -104,6 +132,16 @@ namespace Planer.Migrations
                 name: "IX_Tasks_UserID",
                 table: "Tasks",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTasks_TaskID",
+                table: "UserTasks",
+                column: "TaskID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTasks_UserID",
+                table: "UserTasks",
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -113,6 +151,9 @@ namespace Planer.Migrations
 
             migrationBuilder.DropTable(
                 name: "TaskFiles");
+
+            migrationBuilder.DropTable(
+                name: "UserTasks");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

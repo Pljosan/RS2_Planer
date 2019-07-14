@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import * as moment from 'moment';
 import {AddTaskDialogComponent} from "../add-task-dialog/add-task-dialog.component";
 import { EncrDecrService } from '../encr-decr/encr-decr-service.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-day-tasks-dialog',
@@ -72,8 +73,6 @@ export class DayTasksDialogComponent implements OnInit {
   }
 
 }
-<<<<<<< HEAD
-=======
 
 class FileUpload {
 
@@ -106,4 +105,3 @@ class UserTask {
     user: User;
     task: Task;
 }
->>>>>>> 8edac07... merge user-task
