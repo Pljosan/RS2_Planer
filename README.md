@@ -32,6 +32,8 @@ We tried working as agile as we could. If you want to see our progress, here are
 
 If you have any questions or suggestions, feel free to contact us! 
 
+&nbsp;
+
 ## Installation notes
 
 In order to start the application, there are some steps you should take.
