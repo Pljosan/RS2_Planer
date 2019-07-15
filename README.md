@@ -31,3 +31,9 @@ We tried working as agile as we could. If you want to see our progress, here are
 [Daily Meetings](https://drive.google.com/drive/folders/1m5tUpy2zznirNR9NFaW-5u-TbvcGr3kW?usp=sharing)
 
 If you have any questions or suggestions, feel free to contact us! 
+
+## Installation notes
+
+In order to start the application, there are some steps you should take.
+
+* Create an appsettings.json file in the Planer folder. It should contain a connection string for your database.
